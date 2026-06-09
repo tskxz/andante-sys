@@ -1,0 +1,46 @@
+CARTAO
+	IdCartao
+	DataEmissao
+	TipoCartao
+
+CARTAO_AZUL
+	IdCartao
+	SaldoViagens
+	ZonaContratada
+
+CARTAO_GOLD
+	IdCartao
+	NomeTitular
+	NumDocumento
+	MesPago
+
+ESTACAO
+	IdEstacao
+	NomeEstacao
+	ZonaAndante
+
+VALIDADOR
+	IdValidador
+	IdEstacao
+
+REGISTO_VALIDACAO
+	IdValidacao
+	IdCartao
+	IdValidador
+	DataHora
+	Resultado
+
+
+Relacionamentos e Cardinalidades (Regras de Negócio)
+
+CARTAO para CARTAO_AZUL / CARTAO_GOLD (1:1)
+	Um CARTAO pode ser especificamente 1 CARTAO_AZUL ou 1 CARTAO_GOLD.
+
+ESTACAO para VALIDADOR (1:N)
+	Uma ESTACAO possui N de VALIDADORES instalados. Um VALIDADOR pertence obrigatoriamente a 1 única ESTACAO.
+
+CARTAO para REGISTO_VALIDACAO (1:N)
+	Um CARTAO pode ter N de REGISTO_VALIDACAO ao longo do tempo. Cada REGISTO_VALIDACAO pertence obrigatoriamente a 1 único CARTAO.
+
+VALIDADOR para REGISTO_VALIDACAO (1:N)
+	Um VALIDADOR regista N eventos de REGISTO_VALIDACAO. Cada REGISTO_VALIDACAO ocorre em 1 único VALIDADOR.
