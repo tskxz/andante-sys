@@ -26,6 +26,5 @@ Validador
 Atributos: - idValidador: int, - statusAtivo: bool
 Métodos: + ProcessarLeitura(CartaoAndante cartao): bool
 
-
 RegistoValidacao (Classe Associativa / Histórico)
 Atributos: - idValidacao: int, - dataHora: DateTime, - sucesso: bool, - zonaValidada: string
