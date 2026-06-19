@@ -1,10 +1,14 @@
+<p align="center">
+  <img src="https://cdn.freebiesupply.com/logos/large/2x/metro-do-porto-1-logo-png-transparent.png" height="300px" width="300px"/>
+</p>
+
 # AndanteSys (Sistema de Simulação Metro do Porto - Andante)
 
 Este projeto consiste num **Simulador do Ecossistema Intermodal Andante (Metro do Porto)** desenvolvido em C# com uma interface gráfica em **WPF (Windows Presentation Foundation)**. O objetivo principal é demonstrar a aplicação prática de conceitos avançados de **Programação Orientada a Objetos (POO)**
 
 ## Base de Funcionamento do Sistema
 
-O programa baseia-se na simulação integrada de dois perfis de utilização que interagem sobre uma rede de transportes comum:
+O programa baseia-se na simulação integrada de dois perfis de utilização que interagem sobre uma rede de transportes comumr:
 
 ### 1. Backoffice (Área do Administrador)
 Permite a gestão global da infraestrutura e dos títulos de transporte. O administrador é responsável por alimentar o sistema, tendo a capacidade de emitir dois tipos de cartões com regras de negócio distintas:
