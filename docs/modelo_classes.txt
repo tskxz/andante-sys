@@ -3,14 +3,12 @@ Atributos: - idCartao: string, - dataEmissao: DateTime
 Métodos: + ValidarViagem(Estacao estacaoAtual)
 
 AndanteAzul (Subclasse)
-Atributos: - saldoViagens: int, - zonaContratada: string, - inicioViagem: DateTime
-Métodos: + ValidarViagem(Estacao estacaoAtual): bool (Override), + CarregarViagens(int quantidade, string zona): void
+Atributos: - saldoViagens: int, - zona: Zona, - inicioViagem: DateTime
+Métodos: + ValidarViagem(Estacao estacaoAtual): bool (Override), + CarregarViagens(int quantidade, Zona zona): void
 
 AndanteGold (Subclasse / Herança)
-Atributos: - nomeTitular: string, - numDocumento: string, - mesValidade: int, - zonasAutorizadas: List<string>
+Atributos: - nomeTitular: string, - numDocumento: string, - mesValidade: int, - zonasAutorizadas: List<Zona>
 Métodos: + ValidarViagem(Estacao estacaoAtual): bool (Override), + RenovarAssinatura(int mes): void
-
-
 
 
 RedeMetro
@@ -20,7 +18,11 @@ Linha
 Atributos: - letraLinha: char (ex: 'A', 'D'), - cor: string, - estacoes: List<Estacao>
 
 Estacao
-Atributos: - nomeEstacao: string, - zonaAndante: string (ex: "PRT1"), - validadores: List<Validador>
+Atributos: - nomeEstacao: string, - zona: Zona (ex: "PRT1"), - validadores: List<Validador>
+
+Zona
+Atributos: - codigoZona: string - nomeRegiao: string (ex: "Porto Centro", "Matosinhos") - estacoesDaZona: List<Estacao>
+Métodos: + AdicionarEstacao(Estacao estacao): void + TemEstacao(Estacao e): bool
 
 Validador
 Atributos: - idValidador: int, - statusAtivo: bool

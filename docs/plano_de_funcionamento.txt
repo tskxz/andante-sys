@@ -1,0 +1,134 @@
+===============================================================================
+               PLANO DE FUNCIONAMENTO E INTERAÇÃO DO SISTEMA
+===============================================================================
+
+1. ARQUITETURA DE INICIALIZAÇÃO
+-------------------------------------------------------------------------------
+Quando o programa é executado, a infraestrutura da rede de transportes é criada 
+automática e fixamente em memória através da classe unificadora 'SistemaAndante':
+
+   - Criação de Zonas:
+     * Zona 1: Código "PRT1" (Nome: "Porto Centro")
+     * Zona 2: Código "MTS1" (Nome: "Matosinhos")
+
+   - Criação de Estações (e vinculação à respetiva Zona):
+     * Estação "Trindade" -> Vinculada à Zona "PRT1"
+     * Estação "Matosinhos Sul" -> Vinculada à Zona "MTS1"
+
+   - Criação de Linhas (e vinculação de Estações):
+     * Linha A (Azul) -> Contém "Trindade" e "Matosinhos Sul"
+     * Esta Linha A é registada na lista global do 'SistemaAndante'.
+
+   - Criação de Validadores Físicos:
+     * Validador ID 01 -> Instalado na Estação Trindade.
+     * Validador ID 02 -> Instalado na Estação Matosinhos Sul.
+
+   - Registo Central de Títulos:
+     * Uma lista global de cartões ('List<CartaoAndante>') é inicializada 
+       completamente vazia, aguardando as ações do Administrador.
+
+
+2. FLUXO DE INTERAÇÃO DO UTILIZADOR (PASSO A PASSO DO PROGRAMA)
+-------------------------------------------------------------------------------
+
+[Fase 1: O Menu Principal de Entrada]
+- O utilizador inicia o simulador e depara-se com um menu de escolha de perfil:
+  * Opção 1: Área do Administrador (Backoffice / Gestão de Dados)
+  * Opção 2: Área do Cliente (Frontoffice / Viagem e Validação)
+  * Opção 3: Fechar o Simulador
+
+
+[Fase 2: Interação em Modo Administrador]
+O objetivo desta área é alimentar o sistema simulado com clientes e cartões.
+
+- Cenário A: Emitir um Passe Mensal (Andante Gold - Nominal)
+  1. O Administrador escolhe a opção "Emitir Cartão Gold".
+  2. O sistema solicita os dados obrigatórios: Nome do Titular e NIF.
+  3. O Administrador digita: Nome = "Carlos Silva", NIF = "123456789".
+  4. O sistema cria um objeto 'Pessoa' com estes dados.
+  5. O sistema gera automaticamente um ID único para o cartão (ex: "GOLD-101").
+  6. O sistema cria o objeto 'AndanteGold' associando-o à 'Pessoa' criada.
+  7. Por regra de negócio, adiciona a assinatura da Zona "PRT1" ao cartão.
+  8. O objeto é guardado na lista global do 'SistemaAndante'.
+
+- Cenário B: Emitir um Cartão Ocasional (Andante Azul - Anónimo)
+  1. O Administrador escolhe a opção "Emitir Cartão Azul".
+  2. O sistema NÃO pede dados pessoais (Nome/NIF), pois o cartão é anónimo.
+  3. O sistema solicita apenas a carga inicial: "Quantas viagens deseja carregar?".
+  4. O Administrador introduz: "2".
+  5. O sistema gera automaticamente um ID único para este cartão (ex: "AZUL-202").
+  6. O sistema cria o objeto 'AndanteAzul' com o saldo de 2 viagens e o campo 
+     'Pessoa' fica vazio ('null').
+  7. O sistema exibe no ecrã o ID gerado para que possa ser usado nos testes.
+  8. O objeto é guardado na lista global do 'SistemaAndante'.
+
+
+[Fase 3: Interação em Modo Cliente (A Simulação da Viagem)]
+O utilizador volta ao Menu Principal e escolhe a "Área do Cliente". O ecrã inicia 
+bloqueado, com uma caixa de texto única que aceita NIF ou ID do Cartão.
+
+- Teste de Validação 1: Carlos Silva (Passe Gold) na Trindade (Sucesso)
+  1. ECRÃ DE LOGIN: O sistema solicita: "Insira o seu NIF ou ID do Cartão".
+  2. O utilizador efetua o LOGIN digitando o NIF do Carlos: "123456789".
+  3. O sistema valida o LOGIN (pesquisa pelo NIF da Pessoa associada), localiza 
+     o cartão e desbloqueia o painel exibindo: "Sessão Ativa: Carlos Silva (Passe Gold)".
+  4. O utilizador seleciona a Estação de embarque: "1 - Trindade (Zona PRT1)".
+  5. O utilizador clica em "Validar" e o sistema invoca o validador da Trindade.
+  6. LÓGICA INTERNA: O Validador da Trindade (Zona PRT1) verifica que o cartão 
+     do Carlos tem a assinatura da zona "PRT1" ativa na sua lista.
+  7. RESULTADO VISUAL: O validador aceita o título. Mostra a mensagem:
+     ">>> [LUZ VERDE] VALIDADO COM SUCESSO. BOA VIAGEM! <<<".
+  8. EFETUAR LOGOFF: O utilizador clica em "Retirar Cartão (Logoff)" para bloquear 
+     o ecrã e terminar a sessão do Carlos.
+
+- Teste de Validação 2: Carlos Silva (Passe Gold) em Matosinhos Sul (Insucesso)
+  1. ECRÃ DE LOGIN: O utilizador faz LOGIN novamente com o NIF do Carlos: "123456789".
+  2. O utilizador seleciona a nova estação atual: "2 - Matosinhos Sul (Zona MTS1)".
+  3. O utilizador clica em "Validar".
+  4. LÓGICA INTERNA: O Validador de Matosinhos (Zona MTS1) verifica as assinaturas 
+     do cartão do Carlos e vê que a zona "MTS1" NÃO está autorizada.
+  5. RESULTADO VISUAL: O sistema nega o acesso. Mostra a mensagem:
+     ">>> [LUZ VERMELHA] RECUSADO - ZONA NÃO AUTORIZADA! <<<".
+  6. EFETUAR LOGOFF: O utilizador clica em "Retirar Cartão".
+
+- Teste de Validação 3: Cartão Azul Anónimo (Consumo de Saldo)
+  1. ECRÃ DE LOGIN: O utilizador tenta entrar com o Cartão Azul. Como não há NIF, 
+     ele efetua o LOGIN digitando o ID gerado pelo administrador: "AZUL-202".
+  2. O sistema valida o LOGIN (pesquisa direta pelo ID do Cartão), reconhece o 
+     'AndanteAzul' e exibe: "Sessão Ativa: Cartão Ocasional Anónimo | Saldo: 2 Viagens".
+  3. O utilizador seleciona a estação: "1 - Trindade (Zona PRT1)".
+  4. O utilizador clica em "Validar".
+  5. LÓGICA INTERNA: O Validador deteta que é um cartão Azul e que o saldo é 
+     maior que zero (Saldo = 2). A viagem é aprovada e o validador ordena ao 
+     cartão que subtraia uma viagem ao seu saldo.
+  6. RESULTADO VISUAL: O sistema aprova a passagem. Mostra a mensagem:
+     ">>> [LUZ VERDE] VIAGEM DESCONTADA. BOA VIAGEM! (Saldo Restante: 1) <<<".
+  7. EFETUAR LOGOFF: O utilizador clica em "Retirar Cartão" para fechar a sessão.
+
+- Teste de Validação 4: Segunda viagem do Cartão Azul (Gastar o último saldo)
+  1. ECRÃ DE LOGIN: O utilizador faz LOGIN com o ID do mesmo cartão: "AZUL-202".
+  2. O sistema mostra o saldo atualizado em memória: "Saldo: 1 Viagem".
+  3. O utilizador seleciona a estação "1 - Trindade" e clica em "Validar".
+  4. LÓGICA INTERNA: Saldo é 1 (maior que zero), logo a viagem é aceite e o 
+     saldo é reduzido para 0.
+  5. RESULTADO VISUAL: ">>> [LUZ VERDE] VIAGEM DESCONTADA. BOA VIAGEM! (Saldo Restante: 0) <<<".
+  6. EFETUAR LOGOFF: O utilizador clica em "Retirar Cartão".
+
+- Teste de Validação 5: Terceira tentativa do Cartão Azul (Insucesso/Sem Saldo)
+  1. ECRÃ DE LOGIN: O utilizador faz LOGIN com o ID do cartão: "AZUL-202".
+  2. O ecrã avisa de imediato: "Sessão Ativa: Cartão Anónimo | Saldo: 0 Viagens".
+  3. O utilizador tenta forçar a validação na Trindade.
+  4. LÓGICA INTERNA: O validador barra a leitura porque o saldo é igual a 0.
+  5. RESULTADO VISUAL: ">>> [LUZ VERMELHA] RECUSADO - SALDO INSUFICIENTE! <<<".
+  6. EFETUAR LOGOFF: O utilizador encerra a simulação.
+
+  
+3. REGRAS DE INTEGRIDADE DA SIMULAÇÃO (RESUMO)
+-------------------------------------------------------------------------------
+- O ecrã de LOGIN do Cliente é flexível: aceita chaves do tipo NIF (redireciona 
+  para a Pessoa dona do Gold) ou chaves do tipo ID (foca diretamente no Azul).
+- Se o utilizador digitar um NIF ou ID inventado que não exista na lista central 
+  do 'SistemaAndante', o LOGIN é imediatamente recusado com um aviso de erro.
+- as viagens gastas no perfil  do Cliente são atualizadas instantaneamente no objeto,
+  refletindo-se se o Administrador for consultar a lista global de cartões.
+===============================================================================
