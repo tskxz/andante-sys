@@ -1,0 +1,74 @@
+Classes
+
+Pessoa
+Atributos: - numDocumento: string (ex: CC ou NIF) - nomeTitular: string
+Métodos: + Pessoa(numDocumento: string, nome: string)
+
+CartaoAndante (Classe Abstrata)
+Atributos: - idCartao: string, - dataEmissao: DateTime
+Métodos: + ValidarViagem(Estacao estacaoAtual)
+
+AndanteAzul (Subclasse)
+Atributos: - saldoViagens: int, - zona: Zona, - inicioViagem: DateTime
+Métodos: + ValidarViagem(Estacao estacaoAtual): bool (Override), + CarregarViagens(int quantidade, Zona zona): void
+
+AndanteGold (Subclasse / Herança)
+Atributos: - nomeTitular: string, - numDocumento: string, - mesValidade: int, - zonasAutorizadas: List<Zona>
+Métodos: + ValidarViagem(Estacao estacaoAtual): bool (Override), + RenovarAssinatura(int mes): void
+
+
+RedeMetro
+Atributos: - nomeRede: string, - linhas: List<Linha>
+
+Linha
+Atributos: - letraLinha: char (ex: 'A', 'D'), - cor: string, - estacoes: List<Estacao>
+
+Estacao
+Atributos: - nomeEstacao: string, - zona: Zona (ex: "PRT1"), - validadores: List<Validador>
+
+Zona
+Atributos: - codigoZona: string - nomeRegiao: string (ex: "Porto Centro", "Matosinhos") - estacoesDaZona: List<Estacao>
+Métodos: + AdicionarEstacao(Estacao estacao): void + TemEstacao(Estacao e): bool
+
+Validador
+Atributos: - idValidador: int, - statusAtivo: bool
+Métodos: + ProcessarLeitura(CartaoAndante cartao): bool
+
+RegistoValidacao (Classe Associativa / Histórico)
+Atributos: - idValidacao: int, - dataHora: DateTime, - sucesso: bool, - zonaValidada: string
+
+
+ER
+
+PESSOA: Nif, Nome
+CARTAO: IdCartao, DataEmissao, TipoCartao
+CARTAO_AZUL: IdCartao, SaldoViagens, ZonaContratada
+CARTAO_GOLD: IdCartao, NomeTitular, NumDocumento, MesPago
+ESTACAO: IdEstacao, NomeEstacao, ZonaAndante
+VALIDADOR: IdValidador, IdEstacao
+REGISTO_VALIDACAO: IdValidacao, IdCartao, IdValidador, DataHora, Resultado
+
+Relacionamentos e Cardinalidades (Regras de Negócio)
+
+CARTAO para CARTAO_AZUL / CARTAO_GOLD (1:1)
+	Um CARTAO pode ser especificamente 1 CARTAO_AZUL ou 1 CARTAO_GOLD.
+
+ESTACAO para VALIDADOR (1:N)
+	Uma ESTACAO possui N de VALIDADORES instalados. Um VALIDADOR pertence obrigatoriamente a 1 única ESTACAO.
+
+Zona e Estacao (1:N)
+	1 Zona tem N Estacao. Uma Estacao pertence a exatamente 1 Zona.
+
+AndanteGold e Zona (N:N)
+	1 passe Gold tem N Zonas autorizadas. 1 Zona pode estar incluída em N cartões Gold diferentes.
+
+CARTAO para REGISTO_VALIDACAO (1:N)
+	Um CARTAO pode ter N de REGISTO_VALIDACAO ao longo do tempo. Cada REGISTO_VALIDACAO pertence obrigatoriamente a 1 único CARTAO.
+
+VALIDADOR para REGISTO_VALIDACAO (1:N)
+	Um VALIDADOR regista N eventos de REGISTO_VALIDACAO. Cada REGISTO_VALIDACAO ocorre em 1 único VALIDADOR.
+
+PESSOA para CARTAO (1:N)
+	Uma PESSOA pode possuir N de CARTAO. Um CARTAO pode estar associado a no máximo 1 PESSOA. 
+	Se o CARTAO for do tipo CARTAO_GOLD, o relacionamento é obrigatório (1:1) para identificar o titular. 
+	Se for do tipo CARTAO_AZUL, o relacionamento é inexistente (1:0), mantendo o bilhete estritamente anónimo.
