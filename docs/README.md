@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.freebiesupply.com/logos/large/2x/metro-do-porto-1-logo-png-transparent.png" height="300px" width="300px"/>
+  <img src="https://raw.githubusercontent.com/tskxz/andante-sys/master/docs/assets/metro.png" height="300px" width="300px"/>
 </p>
 <h1 align="center">AndanteSys</h1>  
 
