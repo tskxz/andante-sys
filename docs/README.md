@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/tskxz/andante-sys/master/docs/assets/metro.png" height="300px" width="300px"/>
+  <img src="https://i.imgur.com/TqQrMYd.png" height="300px" width="300px"/>
 </p>
 <h1 align="center">AndanteSys</h1>  
 
