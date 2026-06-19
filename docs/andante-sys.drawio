@@ -442,6 +442,12 @@
         <mxCell id="UVJQXESVVb6FR2Be2HNr-8" parent="UVJQXESVVb6FR2Be2HNr-1" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" value="+ GetInfo()" vertex="1">
           <mxGeometry height="26" width="210" y="190" as="geometry" />
         </mxCell>
+        <mxCell id="1_6KaXFR7gySgXNfaApZ-0" parent="WIyWlLk6GJQsqaUBKTNV-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="1" vertex="1">
+          <mxGeometry height="30" width="60" x="320" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="1_6KaXFR7gySgXNfaApZ-1" parent="WIyWlLk6GJQsqaUBKTNV-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="N" vertex="1">
+          <mxGeometry height="30" width="60" x="320" y="90" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
