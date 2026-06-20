@@ -7,13 +7,30 @@ namespace AndanteSys.Models
     public class Linha
     {
         private char _letraLinha;
+        private string _nomeLinha;
         private string _cor;
         private List<Estacao> _lstEstacao;
 
         public char LetraLinha
         {
             get { return _letraLinha; }
-            set { _letraLinha = value; }
+            set { _letraLinha = value;
+                if(_letraLinha == ' ')
+                {
+                    _letraLinha = '?';
+                }
+            }
+        }
+
+        public string NomeLinha
+        {
+            get { return _nomeLinha; }
+            set { _nomeLinha = value; 
+                if(_nomeLinha.Length == 0)
+                {
+                    _nomeLinha = "Sem nome";
+                }
+            }
         }
 
         public string Cor
@@ -29,7 +46,8 @@ namespace AndanteSys.Models
 
         public Linha()
         {
-            _letraLinha = '?';
+            _letraLinha = ' ';
+            _nomeLinha = "";
             _cor = "Transparente";
             _lstEstacao = new List<Estacao>();
         }

@@ -11,7 +11,7 @@ namespace AndanteSys.Models
         private bool _sucesso;
         private string _zonaValidada;
         private CartaoAndante _cartao;
-
+        
         public Guid IdValidacao
         {
             get { return _idValidacao; }

@@ -10,6 +10,7 @@ namespace AndanteSys.Models
         private bool _statusAtivo;
         private Estacao _estacao;
 
+        public static List<RegistoValidacao> HistoricoGlobal = new List<RegistoValidacao>();
         public Guid IdValidador
         {
             get { return _idValidador; }
@@ -45,7 +46,7 @@ namespace AndanteSys.Models
             novoRegisto.Sucesso = sucessoViagem;
             novoRegisto.ZonaValidada = _estacao.Zona.CodigoZona;
             novoRegisto.Cartao = c;
-
+            HistoricoGlobal.Add(novoRegisto);
             return sucessoViagem;
         }
 
