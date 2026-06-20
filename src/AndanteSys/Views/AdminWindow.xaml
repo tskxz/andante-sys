@@ -5,31 +5,141 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AndanteSys.Views"
         mc:Ignorable="d"
-        Title="AndanteSys - Painel do Administrador" Height="550" Width="850"
+        Title="AndanteSys - Painel do Administrador" Height="620" Width="950"
         WindowStartupLocation="CenterScreen" Background="#F5F5F5">
 
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320"/>
+            <ColumnDefinition Width="380"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Border Background="White" CornerRadius="5" Padding="15">
-            <StackPanel>
-                <TextBlock Text="Gestão de Títulos" FontSize="18" FontWeight="Bold" Foreground="#007ACC" Margin="0,0,0,15"/>
+            <DockPanel>
+                <Button x:Name="btnVoltar" Content="⬅️ Voltar ao Menu Principal" Height="30" Background="#6C757D" Foreground="White" FontWeight="Bold" Click="BtnVoltar_Click" DockPanel.Dock="Top" Margin="0,0,0,15"/>
 
-                <Button x:Name="btnVoltar" Content="⬅️ Voltar ao Menu" Height="30" Background="#6C757D" Foreground="White" Click="BtnVoltar_Click" Margin="0,0,0,20"/>
+                <TabControl Background="White" BorderBrush="#DFE4E8">
 
-                <TextBlock Text="Os controlos de criação vão ficar aqui..." VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray" Margin="0,100,0,0"/>
-            </StackPanel>
+                    <TabItem Header="💳 Emitir Cartão">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="Emitir Novo Título" FontSize="16" FontWeight="Bold" Foreground="#007ACC" Margin="0,0,0,15"/>
+
+                            <Label Content="Nome do Titular:" Padding="0,2" FontWeight="SemiBold"/>
+                            <TextBox x:Name="txtNomeTitular" Height="25" Margin="0,0,0,10"/>
+
+                            <Label Content="NIF:" Padding="0,2" FontWeight="SemiBold"/>
+                            <TextBox x:Name="txtNifTitular" Height="25" Margin="0,0,0,10"/>
+
+                            <Label Content="Tipo de Cartão:" Padding="0,2" FontWeight="SemiBold"/>
+                            <ComboBox x:Name="cbTipoCartao" Height="25" Margin="0,0,0,15" SelectedIndex="0">
+                                <ComboBoxItem Content="Andante Azul (Ocasional)"/>
+                                <ComboBoxItem Content="Andante Gold (Mensal Pass)"/>
+                            </ComboBox>
+
+                            <Button x:Name="btnEmitirCartao" Content="Gravar e Emitir" Height="32" Background="#28A745" Foreground="White" FontWeight="Bold" Click="BtnEmitirCartao_Click"/>
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem Header="Criar Zona">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="Configurar Nova Zona" FontSize="16" FontWeight="Bold" Foreground="#007ACC" Margin="0,0,0,15"/>
+
+                            <Label Content="Código da Zona (Ex: PRT1, MTS1):" Padding="0,2" FontWeight="SemiBold"/>
+                            <TextBox x:Name="txtCodigoZona" Height="25" Margin="0,0,0,10" MaxLength="4"/>
+
+                            <Label Content="Nome da Região / Localidade:" Padding="0,2" FontWeight="SemiBold"/>
+                            <TextBox x:Name="txtNomeRegiao" Height="25" Margin="0,0,0,15"/>
+
+                            <Button x:Name="btnCriarZona" Content="Adicionar Zona Tarifária" Height="32" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="BtnCriarZona_Click"/>
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem Header="🚇 Criar Linha">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="Adicionar Nova Linha de Metro" FontSize="16" FontWeight="Bold" Foreground="#007ACC" Margin="0,0,0,15"/>
+
+                            <Label Content="Letra Identificadora (Ex: A, B, C):" Padding="0,2" FontWeight="SemiBold"/>
+                            <TextBox x:Name="txtLetraLinha" Height="25" Margin="0,0,0,10" MaxLength="1"/>
+
+                            <Label Content="Nome da Linha:" Padding="0,2" FontWeight="SemiBold"/>
+                            <TextBox x:Name="txtNomeLinha" Height="25" Margin="0,0,0,10"/>
+
+                            <Label Content="Cor Representativa:" Padding="0,2" FontWeight="SemiBold"/>
+                            <TextBox x:Name="txtCorLinha" Height="25" Margin="0,0,0,15"/>
+
+                            <Button x:Name="btnCriarLinha" Content="Registar Linha na Rede" Height="32" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="BtnCriarLinha_Click"/>
+                        </StackPanel>
+                    </TabItem>
+
+                    <TabItem Header="Criar Estação">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="Instalar Estação e Validador" FontSize="16" FontWeight="Bold" Foreground="#007ACC" Margin="0,0,0,15"/>
+
+                            <Label Content="Nome da Estação:" Padding="0,2" FontWeight="SemiBold"/>
+                            <TextBox x:Name="txtNomeEstacao" Height="25" Margin="0,0,0,10"/>
+
+                            <Label Content="Associar à Linha:" Padding="0,2" FontWeight="SemiBold"/>
+                            <ComboBox x:Name="cbLinhasDisponiveis" Height="25" Margin="0,0,0,10" DisplayMemberPath="LetraLinha"/>
+
+                            <Label Content="Pertence à Zona Tarifária:" Padding="0,2" FontWeight="SemiBold"/>
+                            <ComboBox x:Name="cbZonasDisponiveis" Height="25" Margin="0,0,0,15" DisplayMemberPath="CodigoZona"/>
+
+                            <Button x:Name="btnCriarEstacao" Content="Instalar Estação no Sistema" Height="32" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="BtnCriarEstacao_Click"/>
+                        </StackPanel>
+                    </TabItem>
+
+                </TabControl>
+            </DockPanel>
         </Border>
 
         <Grid Grid.Column="1" Margin="15,0,0,0">
             <Border Background="White" CornerRadius="5" Padding="15">
-                <StackPanel>
-                    <TextBlock Text="Cartões" FontSize="18" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,15"/>
-                    <TextBlock Text="A tabela (DataGrid) vai ficar deste lado..." VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray" Margin="0,150,0,0"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Base de Títulos Emitidos (Fiscalização)" FontSize="18" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
+
+                    <DataGrid Grid.Row="1" x:Name="dgCartoes" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" Margin="0,0,0,15">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID Cartão" Binding="{Binding IdCartao}" Width="110"/>
+                            <DataGridTextColumn Header="Titular" Binding="{Binding Titular.Nome}" Width="*"/>
+                            <DataGridTextColumn Header="NIF" Binding="{Binding Titular.NIF}" Width="80"/>
+                            <DataGridTextColumn Header="Tipo" Binding="{Binding TipoCartao}" Width="70"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Border Grid.Row="2" BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="4" Padding="10" Background="#FAFAFA">
+                        <StackPanel>
+                            <TextBlock Text="Operações de Carregamento / Balcão" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                    <Label Content="Qtd. Viagens (Azul):" Padding="0,2"/>
+                                    <TextBox x:Name="txtQtdViagens" Height="25" Text="1"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="0,0,10,0">
+                                    <Label Content="Zona Contratada:" Padding="0,2"/>
+                                    <ComboBox x:Name="cbZonasCarregamento" Height="25" DisplayMemberPath="CodigoZona"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                    <Button x:Name="btnCarregarAzul" Content="Carregar Azul" Height="25" Padding="10,0" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="BtnCarregarAzul_Click" Margin="0,0,5,0"/>
+                                    <Button x:Name="btnRenovarGold" Content="Ativar Mês (Gold)" Height="25" Padding="10,0" Background="#E67E22" Foreground="White" FontWeight="Bold" Click="BtnRenovarGold_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </Grid>
             </Border>
         </Grid>
     </Grid>

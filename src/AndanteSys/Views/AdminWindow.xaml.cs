@@ -32,5 +32,35 @@ namespace AndanteSys.Views
 
             this.Close();
         }
+
+        private void BtnEmitirCartao_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnCriarZona_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnCriarLinha_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnCriarEstacao_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnCarregarAzul_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnRenovarGold_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
