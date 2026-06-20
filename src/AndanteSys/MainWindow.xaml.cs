@@ -20,5 +20,20 @@ namespace AndanteSys
         {
             InitializeComponent();
         }
+
+        private void BtnAdmin_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+
+        private void BtnCliente_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnSair_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }

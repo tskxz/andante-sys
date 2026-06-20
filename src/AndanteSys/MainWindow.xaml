@@ -5,8 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AndanteSys"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="AndanteSys - Metro do Porto" Height="500" Width="700"
+        WindowStartupLocation="CenterScreen" Background="#F5F5F5">
 
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="400">
+
+            <TextBlock Text="METRO DO PORTO" 
+                       FontSize="28" 
+                       FontWeight="Bold" 
+                       Foreground="#007ACC" 
+                       HorizontalAlignment="Center" 
+                       Margin="0,0,0,5"/>
+
+            <TextBlock Text="Simulador de Bilhética Andante" 
+                       FontSize="16" 
+                       Foreground="#555555" 
+                       HorizontalAlignment="Center" 
+                       Margin="0,0,0,40"/>
+
+            <Button x:Name="btnAdmin" 
+                    Content="Área do Administrador (Backoffice)" 
+                    Height="50" 
+                    Margin="0,0,0,15" 
+                    FontSize="14" 
+                    FontWeight="SemiBold"
+                    Background="#007ACC" 
+                    Foreground="White"
+                    Cursor="Hand"
+                    Click="BtnAdmin_Click"/>
+
+            <Button x:Name="btnCliente" 
+                    Content="Área do Cliente (Frontoffice)" 
+                    Height="50" 
+                    Margin="0,0,0,30" 
+                    FontSize="14" 
+                    FontWeight="SemiBold"
+                    Background="#28A745" 
+                    Foreground="White"
+                    Cursor="Hand"
+                    Click="BtnCliente_Click"/>
+
+            <Button x:Name="btnSair" 
+                    Content="Fechar o Simulador" 
+                    Height="40" 
+                    Width="180"
+                    FontSize="12" 
+                    Background="#DC3545" 
+                    Foreground="White"
+                    Cursor="Hand"
+                    HorizontalAlignment="Center"
+                    Click="BtnSair_Click"/>
+
+        </StackPanel>
     </Grid>
 </Window>
