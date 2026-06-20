@@ -22,7 +22,7 @@ namespace AndanteSys
         private void ExecutarSimulacaoAndante()
         {
             Debug.WriteLine("======================================================================");
-            Debug.WriteLine("          INICIANDO SIMULAÇÃO DE SISTEMA METRO (CONSOLA EM WPF)       ");
+            Debug.WriteLine("          INICIANDO SIMULAÇÃO DE SISTEMA METRO                        ");
             Debug.WriteLine("======================================================================");
 
             // -------------------------------------------------------------------------
@@ -88,7 +88,7 @@ namespace AndanteSys
             // [PARTE CLIENTE] - Criação de Clientes, Emissão de Cartões e Carregamentos
             // -------------------------------------------------------------------------
             Debug.WriteLine("\n----------------------------------------------------------------------");
-            Debug.WriteLine("[CLIENTE] -> Cadastrando Passageiros e Emitindo Títulos Andante...");
+            Debug.WriteLine("[CLIENTE] -> Registando Passageiros e Emitindo Títulos Andante...");
 
             Pessoa passageiro1 = new Pessoa { Nome = "Carlos Silva", NIF = "251432999" };
             Pessoa passageiro2 = new Pessoa { Nome = "Ana Rocha", NIF = "264875111" };
