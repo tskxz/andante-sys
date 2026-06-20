@@ -13,13 +13,25 @@ namespace AndanteSys.Models
         public string CodigoZona
         {
             get { return _codigoZona; }
-            set { _codigoZona = value.Trim().ToUpper(); }
+            set {
+                _codigoZona = value.Trim().ToUpper();
+                if(_codigoZona.Length == 0)
+                {
+                    _codigoZona = "???";
+                }
+            }
         }
 
         public string NomeRegiao
         {
             get { return _nomeRegiao; }
-            set { _nomeRegiao = value.Trim(); }
+            set {
+                _nomeRegiao = value.Trim(); 
+                if(_nomeRegiao.Length == 0)
+                {
+                    _nomeRegiao = "Sem Região";
+                }
+            }
         }
 
         public List<Estacao> LstEstacao
@@ -29,8 +41,8 @@ namespace AndanteSys.Models
 
         public Zona()
         {
-            _codigoZona = "???";
-            _nomeRegiao = "Sem Região";
+            _codigoZona = "";
+            _nomeRegiao = "";
             _lstEstacao = new List<Estacao>();
         }
 

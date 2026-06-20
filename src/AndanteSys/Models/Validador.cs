@@ -51,7 +51,16 @@ namespace AndanteSys.Models
 
         public override string ToString()
         {
-            string nomeEst = (_estacao != null) ? _estacao.NomeEstacao : "Armazém";
+            string nomeEst;
+            if (_estacao != null)
+            {
+                nomeEst = _estacao.NomeEstacao;
+            }
+            else
+            {
+                nomeEst = "Armazém";
+            }
+
             return $"Validador ID: {_idValidador}, Ativo: {_statusAtivo}, Local: {nomeEst}";
         }
     }

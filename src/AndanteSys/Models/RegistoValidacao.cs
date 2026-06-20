@@ -49,18 +49,47 @@ namespace AndanteSys.Models
             _cartao = null;
         }
 
-        // Um ToString poderoso que extrai TODA a informação navegando pelos objetos
         public override string ToString()
         {
-            string status = _sucesso ? "SUCESSO" : "RECUSADO";
+            string status;
+            if (_sucesso)
+            {
+                status = "SUCESSO";
+            }
+            else
+            {
+                status = "RECUSADO";
+            }
 
-            // Descobre o dono do cartão se ele existir (Gold vs Azul)
-            string nomePassageiro = (_cartao != null && _cartao.Titular != null)
-                                    ? _cartao.Titular.Nome
-                                    : "Anónimo";
+            string nomePassageiro;
+            if (_cartao != null && _cartao.Titular != null)
+            {
+                nomePassageiro = _cartao.Titular.Nome;
+            }
+            else
+            {
+                nomePassageiro = "Anónimo";
+            }
 
-            string tipoCartao = (_cartao != null) ? _cartao.TipoCartao : "Desconhecido";
-            string idCartaoCurto = (_cartao != null) ? _cartao.IdCartao.ToString().Substring(0, 8).ToUpper() : "N/A";
+            string tipoCartao;
+            if (_cartao != null)
+            {
+                tipoCartao = _cartao.TipoCartao;
+            }
+            else
+            {
+                tipoCartao = "Desconhecido";
+            }
+
+            string idCartaoCurto;
+            if (_cartao != null)
+            {
+                idCartaoCurto = _cartao.IdCartao.ToString().Substring(0, 8).ToUpper();
+            }
+            else
+            {
+                idCartaoCurto = "N/A";
+            }
 
             return $"[{_dataValidacao:dd/MM/yyyy HH:mm:ss}] Registo: {_idValidacao.ToString().Substring(0, 5)} | " +
                    $"Resultado: {status} | Zona: {_zonaValidada} | " +
