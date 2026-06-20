@@ -23,7 +23,9 @@ namespace AndanteSys
 
         private void BtnAdmin_Click(object sender, RoutedEventArgs e)
         {
-           
+            AndanteSys.Views.AdminWindow adminWin = new AndanteSys.Views.AdminWindow();
+            adminWin.Show();
+            this.Close();
         }
 
         private void BtnCliente_Click(object sender, RoutedEventArgs e)
