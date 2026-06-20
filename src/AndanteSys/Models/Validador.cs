@@ -47,6 +47,9 @@ namespace AndanteSys.Models
             novoRegisto.ZonaValidada = _estacao.Zona.CodigoZona;
             novoRegisto.Cartao = c;
             HistoricoGlobal.Add(novoRegisto);
+
+            AndanteSys.Helpers.RegistoValidacaoHelper registoHelper = new AndanteSys.Helpers.RegistoValidacaoHelper();
+            registoHelper.Insert(novoRegisto);
             return sucessoViagem;
         }
 
