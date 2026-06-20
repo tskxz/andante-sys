@@ -30,7 +30,9 @@ namespace AndanteSys
 
         private void BtnCliente_Click(object sender, RoutedEventArgs e)
         {
-
+            AndanteSys.Views.ClienteWindow clienteWin = new AndanteSys.Views.ClienteWindow();
+            clienteWin.Show();
+            this.Close();
         }
 
         private void BtnSair_Click(object sender, RoutedEventArgs e)
