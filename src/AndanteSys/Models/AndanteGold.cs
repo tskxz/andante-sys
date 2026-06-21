@@ -37,9 +37,27 @@ namespace AndanteSys.Models
             {
                 if (zonaEstacaoAtual != null)
                 {
-                    if (_zonaAutorizada != null && _zonaAutorizada.CodigoZona == zonaEstacaoAtual.CodigoZona)
+                    if (_zonaAutorizada != null)
                     {
-                        return true;
+                        
+                        if (_zonaAutorizada.CodigoZona == zonaEstacaoAtual.CodigoZona)
+                        {
+                            return true;
+                        }
+
+                        /* if (_zonaAutorizada.LstEstacao.Any(est => zonaEstacaoAtual.TemEstacao(est)))
+                             return true;
+                        
+                           }
+                        */
+
+                        foreach (var estacao in _zonaAutorizada.LstEstacao)
+                        {
+                            if (zonaEstacaoAtual.TemEstacao(estacao))
+                            {
+                                return true;
+                            }
+                        }
                     }
                 }
             }

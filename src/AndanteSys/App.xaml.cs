@@ -37,6 +37,7 @@ namespace AndanteSys
 
             Estacao matosinhos = new Estacao { NomeEstacao = "Matosinhos Sul", Zona = z2 };
             matosinhos.AddValidador(new Validador { Estacao = matosinhos });
+            z2.AddEstacao(trindade);
             z2.AddEstacao(matosinhos);
 
             // criar uma linha
