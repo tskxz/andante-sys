@@ -24,5 +24,5 @@ Simula a interação física de um passageiro numa estação de metro real atrav
     * Para cartões **Azul**, o validador verifica se existe saldo disponível e, em caso afirmativo, debita automaticamente uma viagem ao cartão.
 * **Feedback Visual:** A interface responde instantaneamente simulando a máquina física do Andante, exibindo uma **Luz Verde** (Acesso Autorizado) ou **Luz Vermelha** (Acesso Recusado por saldo insuficiente ou zona não autorizada).
 
-<img src="https://imgur.com/AwHeN3K"/>
-<img src="https://imgur.com/nGINblX"/>
+<img src="https://i.imgur.com/AwHeN3K.png"/>
+<img src="https://imgur.com/nGINblX.png"/>
