@@ -249,7 +249,7 @@ namespace AndanteSys.Views
                 }
 
                 RefreshCartoesGrid();
-                MessageBox.Show("Assinatura renovada e zonas atualizadas (se aplicável).", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Assinatura renovada e zonas atualizadas.", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
@@ -299,6 +299,8 @@ namespace AndanteSys.Views
             {
                 txtQtdViagens.Text = "";
                 cbZonasCarregamento.SelectedItem = null;
+                txtSelecionadoIdCartao.Text = string.Empty;
+                txtSelecionadoNif.Text = string.Empty;
                 return;
             }
 
@@ -328,12 +330,33 @@ namespace AndanteSys.Views
                 {
                     cbZonasCarregamento.SelectedItem = null;
                 }
+                // preencher campos de cópia
+                txtSelecionadoIdCartao.Text = selected.IdCartao.ToString();
+                if (selected.Titular != null)
+                {
+                    txtSelecionadoNif.Text = selected.Titular.NIF;
+                }
+                else
+                {
+                    txtSelecionadoNif.Text = string.Empty;
+                }
             }
             else
             {
                 txtQtdViagens.Text = "";
                 cbZonasCarregamento.SelectedItem = null;
+                txtSelecionadoIdCartao.Text = selected.IdCartao.ToString();
+                if (selected.Titular != null)
+                {
+                    txtSelecionadoNif.Text = selected.Titular.NIF;
+                }
+                else
+                {
+                    txtSelecionadoNif.Text = string.Empty;
+                }
             }
         }
+
+        
     }
 }
