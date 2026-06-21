@@ -20,32 +20,65 @@ namespace AndanteSys.Views
         public ClienteWindow()
         {
             InitializeComponent();
+            LoadInitialData();
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
             string input = txtLoginInput.Text.Trim();
-            if(input.Length == 0)
+            if (input.Length == 0)
             {
                 MessageBox.Show("Por favor, introduza um NIF ou ID válido.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            // TODO: isto e uma solucao temporaria, dps mudo isto, tenho que criar as classes do Model
-            if(input == "123456789")
+            // try to find by card id (guid short) or by NIF
+            AndanteSys.Models.CartaoAndante cartaoEncontrado = null;
+            // search by full GUID
+            cartaoEncontrado = App.lstCartoes.FirstOrDefault(c => c.IdCartao.ToString().Equals(input, StringComparison.OrdinalIgnoreCase));
+            if (cartaoEncontrado == null)
             {
-                lblStatusSessao.Text = "Sessão Ativa: Carlos Silva (Passe Gold)";
-                lblSaldoSessao.Text = "Assinatura Ativa: Zona PRT1";
-            } else if (input.ToUpper() == "AZUL-01")
-            {
-                lblStatusSessao.Text = "Sessão Ativa: Cartão Ocasional Anónimo (ID: AZUL-01)";
-                lblSaldoSessao.Text = "Saldo Atual: 2 Viagens";
-            } else 
-            {
-                // para ja aceita tudo so pa testar o layout
-                lblStatusSessao.Text = $"Sessão Ativa: Cartão de Teste ({input})";
-                lblSaldoSessao.Text = "Modo de simulação geral.";
+                // try by short prefix (first 8 chars)
+                cartaoEncontrado = App.lstCartoes.FirstOrDefault(c => c.IdCartao.ToString().StartsWith(input, StringComparison.OrdinalIgnoreCase));
             }
+
+            if (cartaoEncontrado == null)
+            {
+                // try lookup by NIF
+                var pessoa = App.lstPessoas.FirstOrDefault(p => p.NIF == input);
+                if (pessoa != null)
+                {
+                    cartaoEncontrado = App.lstCartoes.FirstOrDefault(c => c.Titular != null && c.Titular.IdPessoa == pessoa.IdPessoa);
+                }
+            }
+
+            if (cartaoEncontrado == null)
+            {
+                MessageBox.Show("Nenhum cartão ou titular encontrado com essa identificação.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // show session info
+            string tipo = cartaoEncontrado.TipoCartao ?? "Desconhecido";
+            string nomeTit = cartaoEncontrado.Titular != null ? cartaoEncontrado.Titular.Nome : "Anónimo";
+            lblStatusSessao.Text = $"Sessão Ativa: {nomeTit} ({tipo})";
+
+            if (cartaoEncontrado is AndanteSys.Models.AndanteAzul azul)
+            {
+                lblSaldoSessao.Text = $"Saldo: {azul.SaldoViagens} viagem(ns) | Zona: {azul.ZonaContratada}";
+            }
+            else if (cartaoEncontrado is AndanteSys.Models.AndanteGold gold)
+            {
+                var zonas = gold.ZonasAutorizadas != null && gold.ZonasAutorizadas.Count > 0 ? string.Join(", ", gold.ZonasAutorizadas.Select(z => z.CodigoZona)) : "Nenhuma";
+                lblSaldoSessao.Text = $"Assinatura mês: {gold.MesPago} | Zonas: {zonas}";
+            }
+            else
+            {
+                lblSaldoSessao.Text = "Cartão sem informação adicional.";
+            }
+
+            // store selected card id in Tag for validation step
+            panelViagem.Tag = cartaoEncontrado;
 
             // esconder o login e mostrar viagem
             panelLogin.Visibility = Visibility.Collapsed;
@@ -58,26 +91,57 @@ namespace AndanteSys.Views
 
         private void BtnValidar_Click(object sender, RoutedEventArgs e)
         {
-            string input = txtLoginInput.Text.Trim();
-            int estacaoSelecionada = cbEstacoes.SelectedIndex; // 0 = Trindade, 1 = Matosinhos
-            if (input == "123456789")
+            var cartao = panelViagem.Tag as AndanteSys.Models.CartaoAndante;
+            if (cartao == null)
             {
-                if (estacaoSelecionada == 0)
-                {
-                    ellipseLuz.Fill = Brushes.Green;
-                    lblDisplayValidador.Text = ">>> LUZ VERDE: VALIDADO COM SUCESSO. BOA VIAGEM! <<<";
-                }
-                else
-                {
-                    ellipseLuz.Fill = Brushes.Red;
-                    lblDisplayValidador.Text = ">>> LUZ VERMELHA: RECUSADO - ZONA NÃO AUTORIZADA! <<<";
-                }
+                MessageBox.Show("Nenhum cartão válido na sessão. Faça login novamente.", "Erro", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var estacao = cbEstacoes.SelectedItem as AndanteSys.Models.Estacao;
+            if (estacao == null)
+            {
+                MessageBox.Show("Selecione uma estação de embarque.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            // use the station's validador to process read (this will create and persist RegistoValidacao)
+            bool resultado = false;
+            if (estacao.LstValidador != null && estacao.LstValidador.Count > 0)
+            {
+                // use first installed validador
+                var val = estacao.LstValidador[0];
+                resultado = val.ProcessarLeitura(cartao);
             }
             else
             {
-                // temporario, simula sucesso direto apenas para ver o comportamento do ecrã
+                // fallback: validate directly against station zone
+                resultado = cartao.ValidarViagem(estacao.Zona);
+
+                // create and persist registo manually
+                var novo = new AndanteSys.Models.RegistoValidacao();
+                novo.Sucesso = resultado;
+                novo.ZonaValidada = estacao.Zona?.CodigoZona ?? "???";
+                novo.Cartao = cartao;
+                var rh = new AndanteSys.Helpers.RegistoValidacaoHelper();
+                rh.Insert(novo);
+            }
+
+            if (resultado)
+            {
                 ellipseLuz.Fill = Brushes.Green;
-                lblDisplayValidador.Text = ">>> LUZ VERDE: VIAGEM DESCONTADA. BOA VIAGEM! <<<";
+                lblDisplayValidador.Text = ">>> LUZ VERDE: VALIDADO COM SUCESSO. BOA VIAGEM! <<<";
+            }
+            else
+            {
+                ellipseLuz.Fill = Brushes.Red;
+                lblDisplayValidador.Text = ">>> LUZ VERMELHA: RECUSADO - ZONA NÃO AUTORIZADA! <<<";
+            }
+
+            // if card is azul, update displayed saldo
+            if (cartao is AndanteSys.Models.AndanteAzul az)
+            {
+                lblSaldoSessao.Text = $"Saldo: {az.SaldoViagens} viagem(ns) | Zona: {az.ZonaContratada}";
             }
         }
 
@@ -85,11 +149,21 @@ namespace AndanteSys.Views
         // esconde a viagem e mostra o login outra vez
         private void BtnLogoff_Click(object sender, RoutedEventArgs e)
         {
-
-            
             txtLoginInput.Clear();
+            panelViagem.Tag = null;
             panelViagem.Visibility = Visibility.Collapsed;
             panelLogin.Visibility = Visibility.Visible;
+        }
+
+        private void LoadInitialData()
+        {
+            // populate stations
+            cbEstacoes.ItemsSource = null;
+            var estHelper = new AndanteSys.Helpers.EstacaoHelper();
+            var todas = estHelper.ListarTodasDoSistema();
+            cbEstacoes.ItemsSource = todas;
+            if (todas != null && todas.Count > 0)
+                cbEstacoes.SelectedIndex = 0;
         }
 
         // voltar ao menu principal
