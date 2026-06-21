@@ -43,7 +43,7 @@ namespace AndanteSys.Views
 
             if (cbTipoCartao.SelectedIndex == 1) // Gold
             {
-                if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(nif))
+                if (nome.Length == 0 || nif.Length == 0)
                 {
                     MessageBox.Show("Para emitir um Andante Gold é obrigatório informar Nome e NIF.", "Erro", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return;
@@ -58,11 +58,10 @@ namespace AndanteSys.Views
                 gold.RenovarAssinatura(DateTime.Now.Month);
                 cartaoHelper.Insert(gold);
             }
-            else // Azul can be anonymous
+            else // azul pode ser anonimo
             {
                 var azul = new AndanteSys.Models.AndanteAzul();
 
-                // if user provided a name or NIF, create a Pessoa and link; otherwise keep anonymous (do not add to App.lstPessoas)
                 if (!string.IsNullOrEmpty(nome) || !string.IsNullOrEmpty(nif))
                 {
                     var pessoa = new AndanteSys.Models.Pessoa { Nome = nome, NIF = nif };
@@ -158,10 +157,18 @@ namespace AndanteSys.Views
                 }
 
                 var zona = cbZonasCarregamento.SelectedItem as AndanteSys.Models.Zona;
-                string codigoZona = zona != null ? zona.CodigoZona : "PRT1";
+                string codigoZona;
+                if (zona != null)
+                {
+                    codigoZona = zona.CodigoZona;
+                }
+                else
+                {
+                    codigoZona = "PRT1";
+                }
 
                 azul.CarregarViagens(qtd, codigoZona);
-                // ensure UI shows newly contracted zone
+                
                 cbZonasCarregamento.SelectedValue = codigoZona;
                 RefreshCartoesGrid();
                 MessageBox.Show("Carregamento efetuado.", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -237,7 +244,6 @@ namespace AndanteSys.Views
                 txtQtdViagens.Text = azul.SaldoViagens.ToString();
                 if (!string.IsNullOrEmpty(azul.ZonaContratada))
                 {
-                    // select by value (CodigoZona)
                     cbZonasCarregamento.SelectedValue = azul.ZonaContratada;
                 }
                 else
@@ -247,10 +253,15 @@ namespace AndanteSys.Views
             }
             else if (selected is AndanteSys.Models.AndanteGold gold)
             {
-                // Gold has no trips; show first authorized zone if any
                 txtQtdViagens.Text = "0";
                 if (gold.ZonasAutorizadas != null && gold.ZonasAutorizadas.Count > 0)
                 {
+
+                    // agora que tive a pensar, o gold supostamente tem so 1 zona autorizada
+                    // futuramente devia mudar nos Models do cartao gold, em vez de ser lista de zonas autorizadas
+                    // ser apenas uma zona autorizada, uma zona inclui as zonas mais pequenas
+                    // tipo para quem tem MAIA1, pode andar no PRT1
+                    // mas para quem tem PRT1, não pode andar na MAIA1
                     var codigo = gold.ZonasAutorizadas[0].CodigoZona;
                     var zonaObj = App.lstZonas.FirstOrDefault(z => z.CodigoZona == codigo);
                     cbZonasCarregamento.SelectedItem = zonaObj;

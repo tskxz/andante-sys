@@ -103,7 +103,13 @@
 
                     <TextBlock Grid.Row="0" Text="Base de Títulos Emitidos (Fiscalização)" FontSize="18" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
 
-                    <DataGrid Grid.Row="1" x:Name="dgCartoes" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" Margin="0,0,0,15" SelectionChanged="DgCartoes_SelectionChanged">
+                    <DataGrid Grid.Row="1" x:Name="dgCartoes"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              IsReadOnly="True"
+                              SelectionMode="Single"
+                              Margin="0,0,0,15"
+                              SelectionChanged="DgCartoes_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID Cartão" Binding="{Binding IdCartao}" Width="110"/>
                             <DataGridTextColumn Header="Titular" Binding="{Binding Titular.Nome}" Width="*"/>
