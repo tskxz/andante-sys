@@ -24,27 +24,91 @@ namespace AndanteSys
         }
         private void InicializarCenarioMetro()
         {
-            // Criar duas zonas base
+            // Criar zonas base
             Zona z1 = new Zona { CodigoZona = "PRT1", NomeRegiao = "Porto Centro" };
             Zona z2 = new Zona { CodigoZona = "MTS1", NomeRegiao = "Matosinhos" };
+            Zona z3 = new Zona { CodigoZona = "MAI1", NomeRegiao = "Maia" };
+            Zona z4 = new Zona { CodigoZona = "GDL1", NomeRegiao = "Gaia / Gondomar" };
+
             lstZonas.Add(z1);
             lstZonas.Add(z2);
+            lstZonas.Add(z3);
+            lstZonas.Add(z4);
 
-            // criar estacoes e validadores
+            // Criar estacoes e instalar validadores
             Estacao trindade = new Estacao { NomeEstacao = "Trindade", Zona = z1 };
             trindade.AddValidador(new Validador { Estacao = trindade });
             z1.AddEstacao(trindade);
 
             Estacao matosinhos = new Estacao { NomeEstacao = "Matosinhos Sul", Zona = z2 };
             matosinhos.AddValidador(new Validador { Estacao = matosinhos });
-            z2.AddEstacao(trindade);
             z2.AddEstacao(matosinhos);
 
-            // criar uma linha
-            Linha linhaAzul = new Linha { LetraLinha = 'A', NomeLinha = "Linha de Matosinhos", Cor = "Azul" };
+            Estacao aliados = new Estacao { NomeEstacao = "Aliados", Zona = z1 };
+            aliados.AddValidador(new Validador { Estacao = aliados });
+            z1.AddEstacao(aliados);
+
+            Estacao senhoraHora = new Estacao { NomeEstacao = "Senhora da Hora", Zona = z1 };
+            senhoraHora.AddValidador(new Validador { Estacao = senhoraHora });
+            z1.AddEstacao(senhoraHora);
+
+            Estacao maiaCentro = new Estacao { NomeEstacao = "Maia Centro", Zona = z3 };
+            maiaCentro.AddValidador(new Validador { Estacao = maiaCentro });
+            z3.AddEstacao(maiaCentro);
+
+            Estacao gondomar = new Estacao { NomeEstacao = "Gondomar Centro", Zona = z4 };
+            gondomar.AddValidador(new Validador { Estacao = gondomar });
+            z4.AddEstacao(gondomar);
+
+            // Criar linhas e associar estacoes
+            Linha linhaAzul = new Linha { LetraLinha = 'A', NomeLinha = "Linha Matosinhos - Centro", Cor = "Azul" };
             linhaAzul.AddEstacao(matosinhos);
             linhaAzul.AddEstacao(trindade);
+            linhaAzul.AddEstacao(aliados);
+
+            Linha linhaVermelha = new Linha { LetraLinha = 'B', NomeLinha = "Linha Maia", Cor = "Vermelho" };
+            linhaVermelha.AddEstacao(maiaCentro);
+            linhaVermelha.AddEstacao(trindade);
+
+            Linha linhaVerde = new Linha { LetraLinha = 'C', NomeLinha = "Linha Gondomar", Cor = "Verde" };
+            linhaVerde.AddEstacao(gondomar);
+            linhaVerde.AddEstacao(senhoraHora);
+
             lstLinhas.Add(linhaAzul);
+            lstLinhas.Add(linhaVermelha);
+            lstLinhas.Add(linhaVerde);
+
+            // Criar algumas pessoas
+            Pessoa pessoaCarlos = new Pessoa { Nome = "Carlos Silva", NIF = "123456789" };
+            Pessoa pessoaAna = new Pessoa { Nome = "Ana Pereira", NIF = "987654321" };
+            Pessoa pessoaJoao = new Pessoa { Nome = "João Sousa", NIF = "555444333" };
+
+            lstPessoas.Add(pessoaCarlos);
+            lstPessoas.Add(pessoaAna);
+            lstPessoas.Add(pessoaJoao);
+
+            // Emitir alguns cartoes
+            var cartaoGoldCarlos = new AndanteGold();
+            cartaoGoldCarlos.Titular = pessoaCarlos;
+            cartaoGoldCarlos.RenovarAssinatura(DateTime.Now.Month);
+            cartaoGoldCarlos.ZonaAutorizada = z1; // Porto Centro
+
+            var cartaoAzulAna = new AndanteAzul();
+            cartaoAzulAna.Titular = pessoaAna;
+            cartaoAzulAna.CarregarViagens(5, z2.CodigoZona); // Matosinhos
+
+            var cartaoAzulAnonimo = new AndanteAzul();
+            cartaoAzulAnonimo.CarregarViagens(3, z1.CodigoZona); // ocasional anónimo
+
+            var cartaoGoldJoao = new AndanteGold();
+            cartaoGoldJoao.Titular = pessoaJoao;
+            cartaoGoldJoao.RenovarAssinatura(DateTime.Now.Month);
+            cartaoGoldJoao.ZonaAutorizada = z3; // Maia
+
+            lstCartoes.Add(cartaoGoldCarlos);
+            lstCartoes.Add(cartaoAzulAna);
+            lstCartoes.Add(cartaoAzulAnonimo);
+            lstCartoes.Add(cartaoGoldJoao);
         }
     }
 
