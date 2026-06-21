@@ -21,6 +21,12 @@ namespace AndanteSys.Models
             }
         }
 
+        public string ZonaContratada
+        {
+            get { return _zonaContratada; }
+            set { _zonaContratada = value?.Trim().ToUpper(); }
+        }
+
         public override bool ValidarViagem(Zona zonaEstacaoAtual)
         {
 
@@ -39,7 +45,8 @@ namespace AndanteSys.Models
             if (quantidade > 0)
             {
                 _saldoViagens += quantidade;
-                _zonaContratada = zona;
+                // use public property to normalize value
+                ZonaContratada = zona;
             }
         }
 

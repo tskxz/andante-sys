@@ -103,7 +103,7 @@
 
                     <TextBlock Grid.Row="0" Text="Base de Títulos Emitidos (Fiscalização)" FontSize="18" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,10"/>
 
-                    <DataGrid Grid.Row="1" x:Name="dgCartoes" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" Margin="0,0,0,15">
+                    <DataGrid Grid.Row="1" x:Name="dgCartoes" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Single" Margin="0,0,0,15" SelectionChanged="DgCartoes_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID Cartão" Binding="{Binding IdCartao}" Width="110"/>
                             <DataGridTextColumn Header="Titular" Binding="{Binding Titular.Nome}" Width="*"/>
@@ -129,7 +129,7 @@
 
                                 <StackPanel Grid.Column="1" Margin="0,0,10,0">
                                     <Label Content="Zona Contratada:" Padding="0,2"/>
-                                    <ComboBox x:Name="cbZonasCarregamento" Height="25" DisplayMemberPath="CodigoZona"/>
+                                    <ComboBox x:Name="cbZonasCarregamento" Height="25" DisplayMemberPath="CodigoZona" SelectedValuePath="CodigoZona"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="2" VerticalAlignment="Bottom" Orientation="Horizontal">

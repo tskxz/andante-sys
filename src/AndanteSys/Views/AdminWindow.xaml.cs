@@ -162,6 +162,8 @@ namespace AndanteSys.Views
                 string codigoZona = zona != null ? zona.CodigoZona : "PRT1";
 
                 azul.CarregarViagens(qtd, codigoZona);
+                // ensure UI shows newly contracted zone
+                cbZonasCarregamento.SelectedValue = codigoZona;
                 RefreshCartoesGrid();
                 MessageBox.Show("Carregamento efetuado.", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
             }
@@ -218,6 +220,52 @@ namespace AndanteSys.Views
         {
             dgCartoes.ItemsSource = null;
             dgCartoes.ItemsSource = App.lstCartoes;
+        }
+
+        private void DgCartoes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selected = dgCartoes.SelectedItem as AndanteSys.Models.CartaoAndante;
+            if (selected == null)
+            {
+                txtQtdViagens.Text = "";
+                cbZonasCarregamento.SelectedItem = null;
+                return;
+            }
+
+                if (selected is AndanteSys.Models.AndanteAzul azul)
+            {
+                // show saldo and contracted zone
+                txtQtdViagens.Text = azul.SaldoViagens.ToString();
+                if (!string.IsNullOrEmpty(azul.ZonaContratada))
+                {
+                    // select by value (CodigoZona)
+                    cbZonasCarregamento.SelectedValue = azul.ZonaContratada;
+                }
+                else
+                {
+                    cbZonasCarregamento.SelectedItem = null;
+                }
+            }
+            else if (selected is AndanteSys.Models.AndanteGold gold)
+            {
+                // Gold has no trips; show first authorized zone if any
+                txtQtdViagens.Text = "0";
+                if (gold.ZonasAutorizadas != null && gold.ZonasAutorizadas.Count > 0)
+                {
+                    var codigo = gold.ZonasAutorizadas[0].CodigoZona;
+                    var zonaObj = App.lstZonas.FirstOrDefault(z => z.CodigoZona == codigo);
+                    cbZonasCarregamento.SelectedItem = zonaObj;
+                }
+                else
+                {
+                    cbZonasCarregamento.SelectedItem = null;
+                }
+            }
+            else
+            {
+                txtQtdViagens.Text = "";
+                cbZonasCarregamento.SelectedItem = null;
+            }
         }
     }
 }
