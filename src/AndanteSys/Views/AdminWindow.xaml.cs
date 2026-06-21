@@ -257,6 +257,13 @@ namespace AndanteSys.Views
             }
         }
 
+        private void BtnVerRegistos_Click(object sender, RoutedEventArgs e)
+        {
+            var win = new RegistosWindow();
+            win.Owner = this;
+            win.ShowDialog();
+        }
+
         private void LoadInitialData()
         {
             LoadLinesIntoCombo();

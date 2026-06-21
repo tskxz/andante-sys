@@ -140,7 +140,8 @@
 
                                 <StackPanel Grid.Column="2" VerticalAlignment="Bottom" Orientation="Horizontal">
                                     <Button x:Name="btnCarregarAzul" Content="Carregar Azul" Height="25" Padding="10,0" Background="#007ACC" Foreground="White" FontWeight="Bold" Click="BtnCarregarAzul_Click" Margin="0,0,5,0"/>
-                                    <Button x:Name="btnRenovarGold" Content="Ativar Mês (Gold)" Height="25" Padding="10,0" Background="#E67E22" Foreground="White" FontWeight="Bold" Click="BtnRenovarGold_Click"/>
+                                    <Button x:Name="btnRenovarGold" Content="Ativar Mês (Gold)" Height="25" Padding="10,0" Background="#E67E22" Foreground="White" FontWeight="Bold" Click="BtnRenovarGold_Click" Margin="0,0,5,0"/>
+                                    <Button x:Name="btnVerRegistos" Content="Ver Registos" Height="25" Padding="10,0" Background="#17A2B8" Foreground="White" FontWeight="Bold" Click="BtnVerRegistos_Click"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>
