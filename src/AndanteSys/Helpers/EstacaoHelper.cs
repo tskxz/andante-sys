@@ -24,8 +24,8 @@ namespace AndanteSys.Helpers
 
         public List<Estacao> ListarTodasDoSistema()
         {
-            // vai buscar todas as estações registadas em todas as linhas
-            return App.lstLinhas.SelectMany(l => l.LstEstacao).Distinct().ToList();
+            // vai buscar todas as estações registadas em todas as linhas da Rede
+            return App.Rede.LstLinha.SelectMany(l => l.LstEstacao).Distinct().ToList();
         }
     }
 }

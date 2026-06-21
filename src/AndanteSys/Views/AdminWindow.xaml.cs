@@ -209,35 +209,15 @@ namespace AndanteSys.Views
                         codigoAtual = string.Empty;
                     }
 
-                    // normalize both values
-                    string codigoAtualNorm;
-                    if (codigoAtual != null)
-                    {
-                        codigoAtualNorm = codigoAtual.Trim().ToUpperInvariant();
-                    }
-                    else
-                    {
-                        codigoAtualNorm = string.Empty;
-                    }
-
-                    string zonaSelNorm;
-                    if (zonaSelecionada != null && zonaSelecionada.CodigoZona != null)
-                    {
-                        zonaSelNorm = zonaSelecionada.CodigoZona.Trim().ToUpperInvariant();
-                    }
-                    else
-                    {
-                        zonaSelNorm = string.Empty;
-                    }
 
                     // update ZonaAutorizada only if different
-                    if (codigoAtualNorm.Length != zonaSelNorm.Length)
+                    if (codigoAtual.Length != zonaSelecionada.CodigoZona.Length)
                     {
                         gold.ZonaAutorizada = zonaSelecionada;
                     }
                     else
                     {
-                        if (codigoAtualNorm == zonaSelNorm)
+                        if (codigoAtual == zonaSelecionada.CodigoZona)
                         {
                             // same zone -> do nothing
                         }
@@ -274,7 +254,7 @@ namespace AndanteSys.Views
         private void LoadLinesIntoCombo()
         {
             cbLinhasDisponiveis.ItemsSource = null;
-            cbLinhasDisponiveis.ItemsSource = App.lstLinhas;
+            cbLinhasDisponiveis.ItemsSource = App.Rede.LstLinha;
         }
 
         private void LoadZonesIntoCombos()
@@ -330,7 +310,7 @@ namespace AndanteSys.Views
                 {
                     cbZonasCarregamento.SelectedItem = null;
                 }
-                // preencher campos de cópia
+                
                 txtSelecionadoIdCartao.Text = selected.IdCartao.ToString();
                 if (selected.Titular != null)
                 {

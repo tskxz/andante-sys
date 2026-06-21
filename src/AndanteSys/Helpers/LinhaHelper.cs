@@ -9,24 +9,29 @@ namespace AndanteSys.Helpers
     {
         public void Insert(Linha linha)
         {
-            if (linha != null && !App.lstLinhas.Any(l => l.LetraLinha == linha.LetraLinha))
+            if (linha == null) return;
+
+            // ensure not already present in the Rede
+            if (!App.Rede.LstLinha.Any(l => l.LetraLinha == linha.LetraLinha))
             {
-                App.lstLinhas.Add(linha);
+                App.Rede.AddLinha(linha);
             }
         }
 
         public void Apagar(Linha linha)
         {
-            var linhaExistente = App.lstLinhas.FirstOrDefault(l => l.LetraLinha == linha.LetraLinha);
+            if (linha == null) return;
+
+            var linhaExistente = App.Rede.LstLinha.FirstOrDefault(l => l.LetraLinha == linha.LetraLinha);
             if (linhaExistente != null)
             {
-                App.lstLinhas.Remove(linhaExistente);
+                App.Rede.LstLinha.Remove(linhaExistente);
             }
         }
 
         public List<Linha> ListarTodas()
         {
-            return App.lstLinhas;
+            return App.Rede.LstLinha;
         }
     }
 }

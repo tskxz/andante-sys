@@ -11,9 +11,12 @@ namespace AndanteSys
     /// </summary>
     public partial class App : Application
     {
+        public static RedeMetro Rede = new RedeMetro();
+
         public static List<Pessoa> lstPessoas = new List<Pessoa>();
         public static List<CartaoAndante> lstCartoes = new List<CartaoAndante>();
         public static List<Zona> lstZonas = new List<Zona>();
+        // legacy collection kept for compatibility; prefer App.Rede.LstLinha
         public static List<Linha> lstLinhas = new List<Linha>();
         public static List<RegistoValidacao> lstRegistos = new List<RegistoValidacao>();
 
@@ -74,9 +77,16 @@ namespace AndanteSys
             linhaVerde.AddEstacao(gondomar);
             linhaVerde.AddEstacao(senhoraHora);
 
+            // legacy compatibility: keep lstLinhas populated for older helpers/views
             lstLinhas.Add(linhaAzul);
             lstLinhas.Add(linhaVermelha);
             lstLinhas.Add(linhaVerde);
+
+            
+            Rede.NomeRede = "Rede Andante Demo";
+            Rede.AddLinha(linhaAzul);
+            Rede.AddLinha(linhaVermelha);
+            Rede.AddLinha(linhaVerde);
 
             // Criar algumas pessoas
             Pessoa pessoaCarlos = new Pessoa { Nome = "Carlos Silva", NIF = "123456789" };
