@@ -7,14 +7,14 @@ namespace AndanteSys.Models
 {
     public class AndanteGold : CartaoAndante
     {
-
         private int _mesPago;
-        private List<Zona> _zonasAutorizadas;
+        private Zona _zonaAutorizada;
 
         public int MesPago
         {
             get { return _mesPago; }
-            set {
+            set
+            {
                 _mesPago = value;
                 if (_mesPago < 1 || _mesPago > 12)
                 {
@@ -23,12 +23,11 @@ namespace AndanteSys.Models
             }
         }
 
-        public List<Zona> ZonasAutorizadas
+        public Zona ZonaAutorizada
         {
-            get { return _zonasAutorizadas; }
-            set { _zonasAutorizadas = value; }
+            get { return _zonaAutorizada; }
+            set { _zonaAutorizada = value; }
         }
-       
 
         public override bool ValidarViagem(Zona zonaEstacaoAtual)
         {
@@ -38,7 +37,7 @@ namespace AndanteSys.Models
             {
                 if (zonaEstacaoAtual != null)
                 {
-                    if (_zonasAutorizadas.Any(z => z.CodigoZona == zonaEstacaoAtual.CodigoZona))
+                    if (_zonaAutorizada != null && _zonaAutorizada.CodigoZona == zonaEstacaoAtual.CodigoZona)
                     {
                         return true;
                     }
@@ -56,11 +55,7 @@ namespace AndanteSys.Models
             if (string.IsNullOrEmpty(codigo))
                 return;
 
-            if (!_zonasAutorizadas.Any(z => z.CodigoZona == codigo))
-            {
-                Zona nova = new Zona { CodigoZona = codigo };
-                _zonasAutorizadas.Add(nova);
-            }
+            _zonaAutorizada = new Zona { CodigoZona = codigo };
         }
 
         public void RenovarAssinatura(int mes)
@@ -71,13 +66,14 @@ namespace AndanteSys.Models
         public AndanteGold()
         {
             _mesPago = 0;
-            _zonasAutorizadas = new List<Zona> { new Zona { CodigoZona = "PRT1" }, new Zona { CodigoZona = "PRT2" } };
+            _zonaAutorizada = new Zona { CodigoZona = "PRT1" };
             TipoCartao = "GOLD";
         }
 
         public override string ToString()
         {
-            return $"{base.ToString()} | Mês Pago: {_mesPago}, Zonas Autorizadas: {string.Join(", ", _zonasAutorizadas.Select(z => z.CodigoZona))}";
+            string zona = _zonaAutorizada != null ? _zonaAutorizada.CodigoZona : "Nenhuma";
+            return $"{base.ToString()} | Mês Pago: {_mesPago}, Zona Autorizada: {zona}";
         }
     }
 }

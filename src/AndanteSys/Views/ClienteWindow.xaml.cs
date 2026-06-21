@@ -60,7 +60,16 @@ namespace AndanteSys.Views
 
             // show session info
             string tipo = cartaoEncontrado.TipoCartao ?? "Desconhecido";
-            string nomeTit = cartaoEncontrado.Titular != null ? cartaoEncontrado.Titular.Nome : "Anónimo";
+            string nomeTit;
+            if (cartaoEncontrado.Titular != null)
+            {
+                nomeTit = cartaoEncontrado.Titular.Nome;
+            }
+            else
+            {
+                nomeTit = "Anónimo";
+            }
+
             lblStatusSessao.Text = $"Sessão Ativa: {nomeTit} ({tipo})";
 
             if (cartaoEncontrado is AndanteSys.Models.AndanteAzul azul)
@@ -69,8 +78,17 @@ namespace AndanteSys.Views
             }
             else if (cartaoEncontrado is AndanteSys.Models.AndanteGold gold)
             {
-                var zonas = gold.ZonasAutorizadas != null && gold.ZonasAutorizadas.Count > 0 ? string.Join(", ", gold.ZonasAutorizadas.Select(z => z.CodigoZona)) : "Nenhuma";
-                lblSaldoSessao.Text = $"Assinatura mês: {gold.MesPago} | Zonas: {zonas}";
+                string zonas;
+                if (gold.ZonaAutorizada != null)
+                {
+                    zonas = gold.ZonaAutorizada.CodigoZona;
+                }
+                else
+                {
+                    zonas = "Nenhuma";
+                }
+
+                lblSaldoSessao.Text = $"Assinatura mês: {gold.MesPago} | Zona: {zonas}";
             }
             else
             {

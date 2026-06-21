@@ -190,9 +190,66 @@ namespace AndanteSys.Views
             var cartao = dgCartoes.SelectedItem as AndanteSys.Models.CartaoAndante;
             if (cartao is AndanteSys.Models.AndanteGold gold)
             {
+                // renovar mês pago
                 gold.RenovarAssinatura(DateTime.Now.Month);
+
+                
+                // atualizamos a zona autorizada do passe gold para a selecionada
+                var zonaSelecionada = cbZonasCarregamento.SelectedItem as AndanteSys.Models.Zona;
+                if (zonaSelecionada != null)
+                {
+                    // obtain current authorized zone code (if any)
+                    string codigoAtual;
+                    if (gold.ZonaAutorizada != null && gold.ZonaAutorizada.CodigoZona != null)
+                    {
+                        codigoAtual = gold.ZonaAutorizada.CodigoZona;
+                    }
+                    else
+                    {
+                        codigoAtual = string.Empty;
+                    }
+
+                    // normalize both values
+                    string codigoAtualNorm;
+                    if (codigoAtual != null)
+                    {
+                        codigoAtualNorm = codigoAtual.Trim().ToUpperInvariant();
+                    }
+                    else
+                    {
+                        codigoAtualNorm = string.Empty;
+                    }
+
+                    string zonaSelNorm;
+                    if (zonaSelecionada != null && zonaSelecionada.CodigoZona != null)
+                    {
+                        zonaSelNorm = zonaSelecionada.CodigoZona.Trim().ToUpperInvariant();
+                    }
+                    else
+                    {
+                        zonaSelNorm = string.Empty;
+                    }
+
+                    // update ZonaAutorizada only if different
+                    if (codigoAtualNorm.Length != zonaSelNorm.Length)
+                    {
+                        gold.ZonaAutorizada = zonaSelecionada;
+                    }
+                    else
+                    {
+                        if (codigoAtualNorm == zonaSelNorm)
+                        {
+                            // same zone -> do nothing
+                        }
+                        else
+                        {
+                            gold.ZonaAutorizada = zonaSelecionada;
+                        }
+                    }
+                }
+
                 RefreshCartoesGrid();
-                MessageBox.Show("Assinatura renovada.", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Assinatura renovada e zonas atualizadas (se aplicável).", "OK", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             else
             {
@@ -254,15 +311,9 @@ namespace AndanteSys.Views
             else if (selected is AndanteSys.Models.AndanteGold gold)
             {
                 txtQtdViagens.Text = "0";
-                if (gold.ZonasAutorizadas != null && gold.ZonasAutorizadas.Count > 0)
+                if (gold.ZonaAutorizada != null)
                 {
-
-                    // agora que tive a pensar, o gold supostamente tem so 1 zona autorizada
-                    // futuramente devia mudar nos Models do cartao gold, em vez de ser lista de zonas autorizadas
-                    // ser apenas uma zona autorizada, uma zona inclui as zonas mais pequenas
-                    // tipo para quem tem MAIA1, pode andar no PRT1
-                    // mas para quem tem PRT1, não pode andar na MAIA1
-                    var codigo = gold.ZonasAutorizadas[0].CodigoZona;
+                    var codigo = gold.ZonaAutorizada.CodigoZona;
                     var zonaObj = App.lstZonas.FirstOrDefault(z => z.CodigoZona == codigo);
                     cbZonasCarregamento.SelectedItem = zonaObj;
                 }
