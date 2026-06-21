@@ -41,7 +41,6 @@ namespace AndanteSys.Views
 
             var cartaoHelper = new Helpers.CartaoHelper();
 
-            // Gold requires name and NIF
             if (cbTipoCartao.SelectedIndex == 1) // Gold
             {
                 if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(nif))
@@ -88,7 +87,7 @@ namespace AndanteSys.Views
             string codigo = txtCodigoZona.Text.Trim().ToUpper();
             string nome = txtNomeRegiao.Text.Trim();
 
-            if (string.IsNullOrEmpty(codigo) || codigo.Length == 0)
+            if (codigo.Length == 0)
             {
                 MessageBox.Show("Informe o código da zona.", "Erro", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
@@ -108,7 +107,7 @@ namespace AndanteSys.Views
             string nome = txtNomeLinha.Text.Trim();
             string cor = txtCorLinha.Text.Trim();
 
-            if (string.IsNullOrEmpty(letra) || letra.Length == 0)
+            if (letra.Length == 0)
             {
                 MessageBox.Show("Informe a letra identificadora da linha.", "Erro", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
