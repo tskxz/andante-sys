@@ -19,7 +19,7 @@ namespace AndanteSys.Helpers
             linhaAlvo.AddEstacao(estacao);
 
             // instalar automaticamente o validador físico na estação
-            estacao.AddValidador(new Validador { Estacao = estacao });
+            estacao.Validador = new Validador { Estacao = estacao };
         }
 
         public List<Estacao> ListarTodasDoSistema()

@@ -40,27 +40,27 @@ namespace AndanteSys
 
             // Criar estacoes e instalar validadores
             Estacao trindade = new Estacao { NomeEstacao = "Trindade", Zona = z1 };
-            trindade.AddValidador(new Validador { Estacao = trindade });
+            trindade.Validador = new Validador { Estacao = trindade };
             z1.AddEstacao(trindade);
 
             Estacao matosinhos = new Estacao { NomeEstacao = "Matosinhos Sul", Zona = z2 };
-            matosinhos.AddValidador(new Validador { Estacao = matosinhos });
+            matosinhos.Validador = new Validador { Estacao = matosinhos };
             z2.AddEstacao(matosinhos);
 
             Estacao aliados = new Estacao { NomeEstacao = "Aliados", Zona = z1 };
-            aliados.AddValidador(new Validador { Estacao = aliados });
+            aliados.Validador = new Validador { Estacao = aliados };
             z1.AddEstacao(aliados);
 
             Estacao senhoraHora = new Estacao { NomeEstacao = "Senhora da Hora", Zona = z1 };
-            senhoraHora.AddValidador(new Validador { Estacao = senhoraHora });
+            senhoraHora.Validador = new Validador { Estacao = senhoraHora };
             z1.AddEstacao(senhoraHora);
 
             Estacao maiaCentro = new Estacao { NomeEstacao = "Maia Centro", Zona = z3 };
-            maiaCentro.AddValidador(new Validador { Estacao = maiaCentro });
+            maiaCentro.Validador = new Validador { Estacao = maiaCentro };
             z3.AddEstacao(maiaCentro);
 
             Estacao gondomar = new Estacao { NomeEstacao = "Gondomar Centro", Zona = z4 };
-            gondomar.AddValidador(new Validador { Estacao = gondomar });
+            gondomar.Validador = new Validador { Estacao = gondomar };
             z4.AddEstacao(gondomar);
 
             // Criar linhas e associar estacoes

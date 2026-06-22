@@ -125,11 +125,9 @@ namespace AndanteSys.Views
 
             // use the station's validador to process read (this will create and persist RegistoValidacao)
             bool resultado = false;
-            if (estacao.LstValidador != null && estacao.LstValidador.Count > 0)
+            if (estacao.Validador != null)
             {
-                // use first installed validador
-                var val = estacao.LstValidador[0];
-                resultado = val.ProcessarLeitura(cartao);
+                resultado = estacao.Validador.ProcessarLeitura(cartao);
             }
             else
             {
