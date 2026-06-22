@@ -21,6 +21,13 @@ namespace AndanteSys.Views
         {
             InitializeComponent();
             LoadInitialData();
+
+            // wire tree event after component initialization
+            var tree = this.FindName("tvZonas") as TreeView;
+            if (tree != null)
+            {
+                tree.SelectedItemChanged += TvZonas_SelectedItemChanged;
+            }
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
@@ -125,16 +132,14 @@ namespace AndanteSys.Views
 
             // use the station's validador to process read (this will create and persist RegistoValidacao)
             bool resultado = false;
-            if (estacao.LstValidador != null && estacao.LstValidador.Count > 0)
+            if (estacao.Validador != null)
             {
-                // use first installed validador
-                var val = estacao.LstValidador[0];
-                resultado = val.ProcessarLeitura(cartao);
+                resultado = estacao.Validador.ProcessarLeitura(cartao);
             }
             else
             {
                 // fallback: validate directly against station zone
-                resultado = cartao.ValidarViagem(estacao.Zona);
+                resultado = cartao.ValidarViagem(estacao);
 
                 // create and persist registo manually
                 var novo = new AndanteSys.Models.RegistoValidacao();
@@ -148,12 +153,12 @@ namespace AndanteSys.Views
             if (resultado)
             {
                 ellipseLuz.Fill = Brushes.Green;
-                lblDisplayValidador.Text = ">>> LUZ VERDE: VALIDADO COM SUCESSO. BOA VIAGEM! <<<";
+                lblDisplayValidador.Text = ">>> VALIDADO COM SUCESSO. <<<";
             }
             else
             {
                 ellipseLuz.Fill = Brushes.Red;
-                lblDisplayValidador.Text = ">>> LUZ VERMELHA: RECUSADO - ZONA NÃO AUTORIZADA! <<<";
+                lblDisplayValidador.Text = ">>> RECUSADO - ZONA NÃO AUTORIZADA! <<<";
             }
 
             // if card is azul, update displayed saldo
@@ -182,6 +187,46 @@ namespace AndanteSys.Views
             cbEstacoes.ItemsSource = todas;
             if (todas != null && todas.Count > 0)
                 cbEstacoes.SelectedIndex = 0;
+
+            // populate zones and their stations in the tree view
+            LoadZonesTree();
+        }
+
+        private void LoadZonesTree()
+        {
+            var tree = this.FindName("tvZonas") as TreeView;
+            if (tree == null) return;
+            tree.Items.Clear();
+            if (App.lstZonas == null) return;
+
+            foreach (var zona in App.lstZonas)
+            {
+                var header = $"{zona.CodigoZona} - {zona.NomeRegiao} ({zona.LstEstacao.Count} estações)";
+                var tzi = new System.Windows.Controls.TreeViewItem() { Header = header, Tag = zona };
+
+                foreach (var est in zona.LstEstacao)
+                {
+                    var child = new System.Windows.Controls.TreeViewItem() { Header = est.NomeEstacao, Tag = est };
+                    tzi.Items.Add(child);
+                }
+
+                tree.Items.Add(tzi);
+            }
+        }
+
+        private void TvZonas_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var selected = e.NewValue as System.Windows.Controls.TreeViewItem;
+            if (selected == null) return;
+
+            if (selected.Tag is AndanteSys.Models.Estacao est)
+            {
+                cbEstacoes.SelectedItem = est;
+            }
+            else if (selected.Tag is AndanteSys.Models.Zona)
+            {
+                selected.IsExpanded = true;
+            }
         }
 
         // voltar ao menu principal

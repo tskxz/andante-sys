@@ -296,6 +296,16 @@ namespace AndanteSys.Views
                 {
                     cbZonasCarregamento.SelectedItem = null;
                 }
+
+                txtSelecionadoIdCartao.Text = selected.IdCartao.ToString();
+                if (selected.Titular != null)
+                {
+                    txtSelecionadoNif.Text = selected.Titular.NIF;
+                }
+                else
+                {
+                    txtSelecionadoNif.Text = string.Empty;
+                }
             }
             else if (selected is AndanteSys.Models.AndanteGold gold)
             {
