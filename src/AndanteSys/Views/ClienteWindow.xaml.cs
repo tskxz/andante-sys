@@ -153,12 +153,12 @@ namespace AndanteSys.Views
             if (resultado)
             {
                 ellipseLuz.Fill = Brushes.Green;
-                lblDisplayValidador.Text = ">>> LUZ VERDE: VALIDADO COM SUCESSO. BOA VIAGEM! <<<";
+                lblDisplayValidador.Text = ">>> VALIDADO COM SUCESSO. <<<";
             }
             else
             {
                 ellipseLuz.Fill = Brushes.Red;
-                lblDisplayValidador.Text = ">>> LUZ VERMELHA: RECUSADO - ZONA NÃO AUTORIZADA! <<<";
+                lblDisplayValidador.Text = ">>> RECUSADO - ZONA NÃO AUTORIZADA! <<<";
             }
 
             // if card is azul, update displayed saldo
