@@ -61,14 +61,17 @@
                                 Click="BtnValidar_Click"
                                 Margin="0,0,0,25"/>
 
-                        <Border BorderBrush="#CCC" BorderThickness="1" Background="#F9F9F9" CornerRadius="5" Padding="15">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Ellipse x:Name="ellipseLuz" Width="40" Height="40" Fill="LightGray" Stroke="#999" StrokeThickness="1" Margin="0,0,20,0"/>
+                        <Border BorderBrush="#CCC" BorderThickness="1" Background="#F9F9F9" CornerRadius="5" Padding="15" Height="160" HorizontalAlignment="Stretch">
+                            <Grid VerticalAlignment="Center">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                                <StackPanel VerticalAlignment="Center">
-                                    <TextBlock x:Name="lblDisplayValidador" Text="AGUARDANDO VALIDAÇÃO..." FontSize="14" FontWeight="Bold" Foreground="#555" Width="350" TextWrapping="Wrap"/>
-                                </StackPanel>
-                            </StackPanel>
+                                <Ellipse x:Name="ellipseLuz" Width="56" Height="56" Fill="LightGray" Stroke="#999" StrokeThickness="1" Margin="0,0,12,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+
+                                <TextBlock x:Name="lblDisplayValidador" Grid.Column="1" Text="AGUARDANDO VALIDAÇÃO..." FontSize="16" FontWeight="Bold" Foreground="#555" TextWrapping="Wrap" VerticalAlignment="Center" TextAlignment="Center" />
+                            </Grid>
                         </Border>
                     </StackPanel>
 
