@@ -21,6 +21,13 @@ namespace AndanteSys.Views
         {
             InitializeComponent();
             LoadInitialData();
+
+            // wire tree event after component initialization
+            var tree = this.FindName("tvZonas") as TreeView;
+            if (tree != null)
+            {
+                tree.SelectedItemChanged += TvZonas_SelectedItemChanged;
+            }
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
@@ -180,6 +187,46 @@ namespace AndanteSys.Views
             cbEstacoes.ItemsSource = todas;
             if (todas != null && todas.Count > 0)
                 cbEstacoes.SelectedIndex = 0;
+
+            // populate zones and their stations in the tree view
+            LoadZonesTree();
+        }
+
+        private void LoadZonesTree()
+        {
+            var tree = this.FindName("tvZonas") as TreeView;
+            if (tree == null) return;
+            tree.Items.Clear();
+            if (App.lstZonas == null) return;
+
+            foreach (var zona in App.lstZonas)
+            {
+                var header = $"{zona.CodigoZona} - {zona.NomeRegiao} ({zona.LstEstacao.Count} estações)";
+                var tzi = new System.Windows.Controls.TreeViewItem() { Header = header, Tag = zona };
+
+                foreach (var est in zona.LstEstacao)
+                {
+                    var child = new System.Windows.Controls.TreeViewItem() { Header = est.NomeEstacao, Tag = est };
+                    tzi.Items.Add(child);
+                }
+
+                tree.Items.Add(tzi);
+            }
+        }
+
+        private void TvZonas_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var selected = e.NewValue as System.Windows.Controls.TreeViewItem;
+            if (selected == null) return;
+
+            if (selected.Tag is AndanteSys.Models.Estacao est)
+            {
+                cbEstacoes.SelectedItem = est;
+            }
+            else if (selected.Tag is AndanteSys.Models.Zona)
+            {
+                selected.IsExpanded = true;
+            }
         }
 
         // voltar ao menu principal

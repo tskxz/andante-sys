@@ -47,24 +47,41 @@
 
                 <Separator Grid.Row="0" VerticalAlignment="Bottom"/>
 
-                <StackPanel Grid.Row="1" Margin="0,15,0,0">
-                    <TextBlock Text="1. Selecione a Estação de Embarque:" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                    <ComboBox x:Name="cbEstacoes" Height="35" FontSize="13" VerticalContentAlignment="Center" Margin="0,0,0,20" />
+                <Grid Grid.Row="1" Margin="0,15,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="260" />
+                    </Grid.ColumnDefinitions>
 
-                    <Button x:Name="btnValidar" Content="VALIDAR VIAGEM" Height="45" Background="#007ACC" Foreground="White" FontSize="15" FontWeight="Bold" Cursor="Hand"
-                            Click="BtnValidar_Click"
-                            Margin="0,0,0,25"/>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="1. Selecione a Estação de Embarque:" FontSize="13" FontWeight="SemiBold" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="cbEstacoes" Height="35" FontSize="13" VerticalContentAlignment="Center" Margin="0,0,0,20" />
 
-                    <Border BorderBrush="#CCC" BorderThickness="1" Background="#F9F9F9" CornerRadius="5" Padding="15">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Ellipse x:Name="ellipseLuz" Width="40" Height="40" Fill="LightGray" Stroke="#999" StrokeThickness="1" Margin="0,0,20,0"/>
+                        <Button x:Name="btnValidar" Content="VALIDAR VIAGEM" Height="45" Background="#007ACC" Foreground="White" FontSize="15" FontWeight="Bold" Cursor="Hand"
+                                Click="BtnValidar_Click"
+                                Margin="0,0,0,25"/>
 
-                            <StackPanel VerticalAlignment="Center">
-                                <TextBlock x:Name="lblDisplayValidador" Text="AGUARDANDO VALIDAÇÃO..." FontSize="14" FontWeight="Bold" Foreground="#555" Width="350" TextWrapping="Wrap"/>
+                        <Border BorderBrush="#CCC" BorderThickness="1" Background="#F9F9F9" CornerRadius="5" Padding="15">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Ellipse x:Name="ellipseLuz" Width="40" Height="40" Fill="LightGray" Stroke="#999" StrokeThickness="1" Margin="0,0,20,0"/>
+
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock x:Name="lblDisplayValidador" Text="AGUARDANDO VALIDAÇÃO..." FontSize="14" FontWeight="Bold" Foreground="#555" Width="350" TextWrapping="Wrap"/>
+                                </StackPanel>
                             </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <Border Grid.Column="1" BorderBrush="#DDD" BorderThickness="1" CornerRadius="5" Padding="10" Margin="15,0,0,0" Background="#FBFBFB">
+                        <StackPanel>
+                            <TextBlock Text="Zonas e Estações" FontSize="14" FontWeight="Bold" Foreground="#007ACC" Margin="0,0,0,8"/>
+                            <TextBlock Text="Clique numa estação para seleccioná-la." FontSize="11" Foreground="#666" Margin="0,0,0,10"/>
+                            <ScrollViewer Height="230" VerticalScrollBarVisibility="Auto">
+                                <TreeView x:Name="tvZonas" />
+                            </ScrollViewer>
                         </StackPanel>
                     </Border>
-                </StackPanel>
+                </Grid>
             </Grid>
         </Border>
 
