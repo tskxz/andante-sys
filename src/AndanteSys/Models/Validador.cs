@@ -40,7 +40,7 @@ namespace AndanteSys.Models
             if (!_statusAtivo || c == null || _estacao == null || _estacao.Zona == null)
                 return false;
 
-            bool sucessoViagem = c.ValidarViagem(_estacao.Zona);
+            bool sucessoViagem = c.ValidarViagem(_estacao);
 
             RegistoValidacao novoRegisto = new RegistoValidacao();
             novoRegisto.Sucesso = sucessoViagem;

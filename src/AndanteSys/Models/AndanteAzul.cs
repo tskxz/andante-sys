@@ -27,15 +27,24 @@ namespace AndanteSys.Models
             set { _zonaContratada = value?.Trim().ToUpper(); }
         }
 
-        public override bool ValidarViagem(Zona zonaEstacaoAtual)
+        public override bool ValidarViagem(Estacao estacaoAtual)
         {
-
-            // tem de ter saldo e a estação atual tem de ser da zona contratada
-            if (_saldoViagens > 0 && zonaEstacaoAtual != null && zonaEstacaoAtual.CodigoZona == _zonaContratada)
+            if (_saldoViagens > 0 && estacaoAtual != null)
             {
-                // descontar 1 viagem
-                _saldoViagens--;
-                return true;
+                // Se a estação é da zona contratada
+                if (estacaoAtual.Zona.CodigoZona == _zonaContratada)
+                {
+                    _saldoViagens--;
+                    return true;
+                }
+
+                // Se for zona de sobreposição, vai buscar a zona do contrato e vê se ela inclui esta estação
+                var zonaDoContrato = App.lstZonas.FirstOrDefault(z => z.CodigoZona == _zonaContratada);
+                if (zonaDoContrato != null && zonaDoContrato.TemEstacao(estacaoAtual))
+                {
+                    _saldoViagens--;
+                    return true;
+                }
             }
             return false;
         }
