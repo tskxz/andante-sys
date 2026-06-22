@@ -25,4 +25,4 @@ Simula a interação física de um passageiro numa estação de metro real atrav
 * **Feedback Visual:** A interface responde instantaneamente simulando a máquina física do Andante, exibindo uma **Luz Verde** (Acesso Autorizado) ou **Luz Vermelha** (Acesso Recusado por saldo insuficiente ou zona não autorizada).
 
 <img src="https://i.imgur.com/AwHeN3K.png"/>
-<img src="https://imgur.com/nGINblX.png"/>
+<img src="https://i.imgur.com/HdUP01G.png"/>
