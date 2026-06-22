@@ -40,7 +40,7 @@ namespace AndanteSys.Models
         public override string ToString()
         {
             string codZona = (_zona != null) ? _zona.CodigoZona : "Nenhuma";
-            return $"Estação: {_nomeEstacao} [Zona: {codZona}]";
+            return $"Estação: {_nomeEstacao}";
         }
     }
 }
