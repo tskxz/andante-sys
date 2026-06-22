@@ -63,6 +63,25 @@ namespace AndanteSys
             gondomar.Validador = new Validador { Estacao = gondomar };
             z4.AddEstacao(gondomar);
 
+            // 3. SOBREPOSIÇÃO: Adicionar as estações do Porto (z1) às restantes zonas (z2, z3, z4)
+            // Isto garante que quem tem contrato apenas em Maia, Matosinhos ou Gondomar 
+            // consegue validar com sucesso nessas estações partilhadas do Porto!
+
+            // Matosinhos partilha as estações centrais do Porto
+            z2.AddEstacao(trindade);
+            z2.AddEstacao(aliados);
+            z2.AddEstacao(senhoraHora);
+
+            // Maia partilha as estações centrais do Porto
+            z3.AddEstacao(trindade);
+            z3.AddEstacao(aliados);
+            z3.AddEstacao(senhoraHora);
+
+            // Gondomar partilha as estações centrais do Porto
+            z4.AddEstacao(trindade);
+            z4.AddEstacao(aliados);
+            z4.AddEstacao(senhoraHora);
+
             // Criar linhas e associar estacoes
             Linha linhaAzul = new Linha { LetraLinha = 'A', NomeLinha = "Linha Matosinhos - Centro", Cor = "Azul" };
             linhaAzul.AddEstacao(matosinhos);

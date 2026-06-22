@@ -51,7 +51,7 @@ namespace AndanteSys.Models
             _titular = new Pessoa();
         }
 
-        public abstract bool ValidarViagem(Zona zonaEstacaoAtual);
+        public abstract bool ValidarViagem(Estacao estacaoAtual);
 
         public override string ToString()
         {

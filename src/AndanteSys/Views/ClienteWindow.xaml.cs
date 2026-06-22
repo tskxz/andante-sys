@@ -139,7 +139,7 @@ namespace AndanteSys.Views
             else
             {
                 // fallback: validate directly against station zone
-                resultado = cartao.ValidarViagem(estacao.Zona);
+                resultado = cartao.ValidarViagem(estacao);
 
                 // create and persist registo manually
                 var novo = new AndanteSys.Models.RegistoValidacao();
