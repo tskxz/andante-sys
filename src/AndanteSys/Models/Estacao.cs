@@ -9,7 +9,7 @@ namespace AndanteSys.Models
     {
         private string _nomeEstacao;
         private Zona _zona;
-        private List<Validador> _lstValidador;
+        private Validador _validador;
 
         public string NomeEstacao
         {
@@ -23,30 +23,24 @@ namespace AndanteSys.Models
             set { _zona = value; }
         }
 
-        public List<Validador> LstValidador
+        public Validador Validador
         {
-            get { return _lstValidador; }
+            get { return _validador; }
+            set { _validador = value; }
         }
 
         public Estacao()
         {
             _nomeEstacao = "Estação Genérica";
             _zona = null;
-            _lstValidador = new List<Validador>();
+            _validador = null;
         }
 
-        public void AddValidador(Validador v)
-        {
-            if (v != null && !_lstValidador.Contains(v))
-            {
-                _lstValidador.Add(v);
-            }
-        }
 
         public override string ToString()
         {
             string codZona = (_zona != null) ? _zona.CodigoZona : "Nenhuma";
-            return $"Estação: {_nomeEstacao} [Zona: {codZona}] - {_lstValidador.Count} Validadores";
+            return $"Estação: {_nomeEstacao}";
         }
     }
 }
