@@ -40,8 +40,7 @@ namespace AndanteSys.Models
         public override string ToString()
         {
             string codZona = (_zona != null) ? _zona.CodigoZona : "Nenhuma";
-            string infoValidador = (_validador != null) ? "1 Validador" : "0 Validadores";
-            return $"Estação: {_nomeEstacao} [Zona: {codZona}] - {infoValidador}";
+            return $"Estação: {_nomeEstacao} [Zona: {codZona}]";
         }
     }
 }
