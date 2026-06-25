@@ -39,19 +39,19 @@ namespace AndanteSys.Views
                 return;
             }
 
-            // try to find by card id (guid short) or by NIF
+            // tenta encontrar o cartao
             AndanteSys.Models.CartaoAndante cartaoEncontrado = null;
-            // search by full GUID
+            // pesquisa pelo GUID
             cartaoEncontrado = App.lstCartoes.FirstOrDefault(c => c.IdCartao.ToString().Equals(input, StringComparison.OrdinalIgnoreCase));
             if (cartaoEncontrado == null)
             {
-                // try by short prefix (first 8 chars)
+                // tenta os primeiros 8 caracteres
                 cartaoEncontrado = App.lstCartoes.FirstOrDefault(c => c.IdCartao.ToString().StartsWith(input, StringComparison.OrdinalIgnoreCase));
             }
 
             if (cartaoEncontrado == null)
             {
-                // try lookup by NIF
+                // pesquisa pelo NIF
                 var pessoa = App.lstPessoas.FirstOrDefault(p => p.NIF == input);
                 if (pessoa != null)
                 {
@@ -130,7 +130,6 @@ namespace AndanteSys.Views
                 return;
             }
 
-            // use the station's validador to process read (this will create and persist RegistoValidacao)
             bool resultado = false;
             if (estacao.Validador != null)
             {
