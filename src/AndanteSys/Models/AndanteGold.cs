@@ -29,36 +29,22 @@ namespace AndanteSys.Models
             set { _zonaAutorizada = value; }
         }
 
-        public override bool ValidarViagem(Zona zonaEstacaoAtual)
+        public override bool ValidarViagem(Estacao estacaoAtual)
         {
             int mesAtual = DateTime.Now.Month;
-            // o mes do passe tem de estar atualizado e a zona da estação tem de estar autorizada
-            if (_mesPago == mesAtual)
+
+            if (_mesPago == mesAtual && estacaoAtual != null && _zonaAutorizada != null)
             {
-                if (zonaEstacaoAtual != null)
+                // 1. Se a estação pertence à zona do contrato, entra logo
+                if (_zonaAutorizada.CodigoZona == estacaoAtual.Zona.CodigoZona)
                 {
-                    if (_zonaAutorizada != null)
-                    {
-                        
-                        if (_zonaAutorizada.CodigoZona == zonaEstacaoAtual.CodigoZona)
-                        {
-                            return true;
-                        }
+                    return true;
+                }
 
-                        /* if (_zonaAutorizada.LstEstacao.Any(est => zonaEstacaoAtual.TemEstacao(est)))
-                             return true;
-                        
-                           }
-                        */
-
-                        foreach (var estacao in _zonaAutorizada.LstEstacao)
-                        {
-                            if (zonaEstacaoAtual.TemEstacao(estacao))
-                            {
-                                return true;
-                            }
-                        }
-                    }
+                // 2. Se for outra zona, basta ver se a zona do contrato conhece esta estação específica
+                if (_zonaAutorizada.TemEstacao(estacaoAtual))
+                {
+                    return true;
                 }
             }
             return false;
