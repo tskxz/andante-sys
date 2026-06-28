@@ -35,13 +35,13 @@ namespace AndanteSys.Models
 
             if (_mesPago == mesAtual && estacaoAtual != null && _zonaAutorizada != null)
             {
-                // 1. Se a estação pertence à zona do contrato, entra logo
+                // se a estação pertence à zona do contrato, entra logo
                 if (_zonaAutorizada.CodigoZona == estacaoAtual.Zona.CodigoZona)
                 {
                     return true;
                 }
 
-                // 2. Se for outra zona, basta ver se a zona do contrato conhece esta estação específica
+                // se for outra zona, basta ver se a zona do contrato conhece esta estação específica
                 if (_zonaAutorizada.TemEstacao(estacaoAtual))
                 {
                     return true;
